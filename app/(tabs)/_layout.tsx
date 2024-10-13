@@ -1,37 +1,70 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import React from "react";
+import { Colors } from "@/constants/Colors";
+import { useColorScheme } from "@/hooks/useColorScheme";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import TabBar from "../../components/tabBar/TabBar";
+import HomeMentor from "@/screens/HomeMentor";
+import HomeStudent from "@/screens/HomeStudent";
+import Profile from "@/screens/Profile";
+import Login from "@/screens/Login";
 
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
+const HomeTabsMentor = () => {
+  const colorScheme = useColorScheme();
+
+  return (
+    <Tab.Navigator
+      tabBar={(props) => <TabBar {...props} />}
+      screenOptions={{
+        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+        headerShown: false,
+        tabBarStyle: { height: 90 },
+        tabBarItemStyle: { paddingTop: 10 },
+      }}
+    >
+      <Tab.Screen
+        name="Home"
+        component={HomeMentor}
+        options={{
+          title: "HomeMentor",
+        }}
+      />
+      <Tab.Screen
+        name="HomeStudent"
+        component={HomeStudent}
+        options={{
+          title: "HomeStudent",
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          title: "Profile",
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
-          ),
-        }}
+    <Stack.Navigator initialRouteName="Login">
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{ title: "Login", headerShown: false }}
       />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
-          ),
-        }}
+      <Stack.Screen
+        name="HomeMentor"
+        component={HomeTabsMentor}
+        options={{ headerShown: false, title: "HomeMentor" }}
       />
-    </Tabs>
+    </Stack.Navigator>
   );
 }
