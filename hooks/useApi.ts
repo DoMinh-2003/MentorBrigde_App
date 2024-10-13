@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import api from '../config/api'; 
+import axios from 'axios';
 const useApi = () => {
   const [loading, setIsLoading] = useState<boolean>(false);
 
@@ -12,12 +13,13 @@ const useApi = () => {
     ) => {
       try {
         setIsLoading(true);
+        console.log(url);
         const response = await api[method](url, data);
         if (message) console.log(message);
         return response.data;
-      } catch (e: any) {
-        console.error(e);
-        throw e;
+      } catch (error: any) {
+        console.log(error);
+        throw error;
       } finally {
         setIsLoading(false);
       }

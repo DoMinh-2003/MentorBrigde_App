@@ -1,13 +1,29 @@
 import { View, Text } from 'react-native'
 import React, { useEffect } from 'react'
 import { useNavigation } from 'expo-router';
+import { RootStackParamList } from '@/models/NavigationType';
+import { NativeStackNavigationProp } from 'react-native-screens/lib/typescript/native-stack/types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default function oauthredirect() {
-const navigate = useNavigation();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+ 
 
 useEffect(() => {
-  navigate.navigate("(tabs)");
-}, []); 
+  // const handleRedirect = async () => {
+  //   const token = await AsyncStorage.getItem("token");
+  //   if (token) {
+  //     navigation.navigate("HomeMentor");
+  //   } else {
+  //     navigation.navigate("Login");
+  //   }
+  // };
+
+  // handleRedirect();
+  navigation.navigate('Login')
+}, []);
 
 return <></>;
 }
