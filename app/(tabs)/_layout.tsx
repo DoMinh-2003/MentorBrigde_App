@@ -4,10 +4,10 @@ import { useColorScheme } from "@/hooks/useColorScheme";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import TabBar from "../../components/tabBar/TabBar";
-import HomeMentor from "@/screens/HomeMentor";
-import HomeStudent from "@/screens/HomeStudent";
+import HomeMentor from "@/screens/mentorScreens/HomeMentor";
+import HomeStudent from "@/screens/studentScreens/HomeStudent";
 import Profile from "@/screens/Profile";
-import Login from "@/screens/Login";
+import Login from "@/screens/authScreens/Login";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
