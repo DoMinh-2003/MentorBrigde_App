@@ -15,6 +15,13 @@
 		B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
 		4EF3F8D1E115428791B75A45 /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82756733C904CBAB293A809 /* noop-file.swift */; };
+		05D1E30895634AC782377827 /* SpaceMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1C7498BBA0148BB8EC16765 /* SpaceMono-Regular.ttf */; };
+		35700096DA524A2192D9714C /* SVN-Airbnb-Cereal-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0B100AC6B4724A92A3B62678 /* SVN-Airbnb-Cereal-Black.ttf */; };
+		6A91EAE3B4B045F0BE571F7B /* SVN-Airbnb-Cereal-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 38793464DA1F49D4B9496E34 /* SVN-Airbnb-Cereal-Bold.ttf */; };
+		B52EC8CD5FF84419A60D598B /* SVN-Airbnb-Cereal-Book.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F64AFF2C3304048A0F9E162 /* SVN-Airbnb-Cereal-Book.ttf */; };
+		6B2834879D9C4FCA83555A34 /* SVN-Airbnb-Cereal-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1392617A37B34F9A95BBD304 /* SVN-Airbnb-Cereal-ExtraBold.ttf */; };
+		5FDFC5D4EC634FB184C32321 /* SVN-Airbnb-Cereal-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 72A7BFDAC6254A6485BD4B4A /* SVN-Airbnb-Cereal-Light.ttf */; };
+		0F053409B1A44406827D5A1B /* SVN-Airbnb-Cereal-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5A33E4A2F9C54685B1DC3E00 /* SVN-Airbnb-Cereal-Medium.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +40,13 @@
 		FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-MentorBooking/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		B82756733C904CBAB293A809 /* noop-file.swift */ = {isa = PBXFileReference; name = "noop-file.swift"; path = "MentorBooking/noop-file.swift"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.swift; explicitFileType = undefined; includeInIndex = 0; };
 		8F49295B08D34528984C53F3 /* MentorBooking-Bridging-Header.h */ = {isa = PBXFileReference; name = "MentorBooking-Bridging-Header.h"; path = "MentorBooking/MentorBooking-Bridging-Header.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		F1C7498BBA0148BB8EC16765 /* SpaceMono-Regular.ttf */ = {isa = PBXFileReference; name = "SpaceMono-Regular.ttf"; path = "../assets/fonts/SpaceMono-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0B100AC6B4724A92A3B62678 /* SVN-Airbnb-Cereal-Black.ttf */ = {isa = PBXFileReference; name = "SVN-Airbnb-Cereal-Black.ttf"; path = "../assets/fonts/SVN-Airbnb-Cereal-Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		38793464DA1F49D4B9496E34 /* SVN-Airbnb-Cereal-Bold.ttf */ = {isa = PBXFileReference; name = "SVN-Airbnb-Cereal-Bold.ttf"; path = "../assets/fonts/SVN-Airbnb-Cereal-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2F64AFF2C3304048A0F9E162 /* SVN-Airbnb-Cereal-Book.ttf */ = {isa = PBXFileReference; name = "SVN-Airbnb-Cereal-Book.ttf"; path = "../assets/fonts/SVN-Airbnb-Cereal-Book.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		1392617A37B34F9A95BBD304 /* SVN-Airbnb-Cereal-ExtraBold.ttf */ = {isa = PBXFileReference; name = "SVN-Airbnb-Cereal-ExtraBold.ttf"; path = "../assets/fonts/SVN-Airbnb-Cereal-ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		72A7BFDAC6254A6485BD4B4A /* SVN-Airbnb-Cereal-Light.ttf */ = {isa = PBXFileReference; name = "SVN-Airbnb-Cereal-Light.ttf"; path = "../assets/fonts/SVN-Airbnb-Cereal-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5A33E4A2F9C54685B1DC3E00 /* SVN-Airbnb-Cereal-Medium.ttf */ = {isa = PBXFileReference; name = "SVN-Airbnb-Cereal-Medium.ttf"; path = "../assets/fonts/SVN-Airbnb-Cereal-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +102,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				D65327D7A22EEC0BE12398D9 /* Pods */,
 				D7E4C46ADA2E9064B798F356 /* ExpoModulesProviders */,
+				6EDBD2FB71004FE4959C2095 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -135,6 +150,21 @@
 			);
 			name = ExpoModulesProviders;
 			sourceTree = "<group>";
+		};
+		6EDBD2FB71004FE4959C2095 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				F1C7498BBA0148BB8EC16765 /* SpaceMono-Regular.ttf */,
+				0B100AC6B4724A92A3B62678 /* SVN-Airbnb-Cereal-Black.ttf */,
+				38793464DA1F49D4B9496E34 /* SVN-Airbnb-Cereal-Bold.ttf */,
+				2F64AFF2C3304048A0F9E162 /* SVN-Airbnb-Cereal-Book.ttf */,
+				1392617A37B34F9A95BBD304 /* SVN-Airbnb-Cereal-ExtraBold.ttf */,
+				72A7BFDAC6254A6485BD4B4A /* SVN-Airbnb-Cereal-Light.ttf */,
+				5A33E4A2F9C54685B1DC3E00 /* SVN-Airbnb-Cereal-Medium.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -199,6 +229,13 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
 				3264F248B7E74D51A69A10BD /* MentorBooking-Bridging-Header.h in Resources */,
+				05D1E30895634AC782377827 /* SpaceMono-Regular.ttf in Resources */,
+				35700096DA524A2192D9714C /* SVN-Airbnb-Cereal-Black.ttf in Resources */,
+				6A91EAE3B4B045F0BE571F7B /* SVN-Airbnb-Cereal-Bold.ttf in Resources */,
+				B52EC8CD5FF84419A60D598B /* SVN-Airbnb-Cereal-Book.ttf in Resources */,
+				6B2834879D9C4FCA83555A34 /* SVN-Airbnb-Cereal-ExtraBold.ttf in Resources */,
+				5FDFC5D4EC634FB184C32321 /* SVN-Airbnb-Cereal-Light.ttf in Resources */,
+				0F053409B1A44406827D5A1B /* SVN-Airbnb-Cereal-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
