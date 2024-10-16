@@ -1,0 +1,33 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/SpaceMono-Regular.ttf",
+      "sha1": "fae3a5a43b50e0408fd61e14383d94a023d332b0"
+    },
+    {
+      "path": "assets/fonts/SVN-Airbnb-Cereal-Black.ttf",
+      "sha1": "2b8996683c89eacdf93c2f0d58ffba06ba5b22d8"
+    },
+    {
+      "path": "assets/fonts/SVN-Airbnb-Cereal-Bold.ttf",
+      "sha1": "eab1edf3f9aa94fe2042311ff339a0539b5a62de"
+    },
+    {
+      "path": "assets/fonts/SVN-Airbnb-Cereal-Book.ttf",
+      "sha1": "c178491afa6f852f6167779f43ba383a254f602d"
+    },
+    {
+      "path": "assets/fonts/SVN-Airbnb-Cereal-ExtraBold.ttf",
+      "sha1": "4773488d138a598531fb1d5cdacd96fbac5e0e11"
+    },
+    {
+      "path": "assets/fonts/SVN-Airbnb-Cereal-Light.ttf",
+      "sha1": "2c408beb0b682e5ff767386ce18600416470964d"
+    },
+    {
+      "path": "assets/fonts/SVN-Airbnb-Cereal-Medium.ttf",
+      "sha1": "dc0d9ba392ad8a33bc184f349c59d3026cb6e861"
+    }
+  ]
+}

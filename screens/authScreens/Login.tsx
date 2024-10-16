@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   },
 
   textCenterContent: {
-    fontWeight: '900',
+    fontWeight: "900",
     fontSize: 25,
     lineHeight: 50,
   },
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   },
 
   textBottomContent: {
-    fontWeight: '300',
+    fontWeight: "300",
     fontSize: 12,
     color: "#151316",
   },
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    fontWeight: '300',
+    fontWeight: "300",
     fontSize: 12,
     color: "#151316",
   },
@@ -99,14 +99,13 @@ const Login = () => {
       );
       try {
         const res = await signInWithCredential(auth, credential);
-        const { accessToken }: any = res.user;     
+        const { accessToken }: any = res.user;
         const response = await loginGoogle(accessToken);
         const { data } = response;
-        dispatch(login(data))     
+        dispatch(login(data));
         await AsyncStorage.setItem("token", data.token);
         navigation.navigate("HomeMentor");
       } catch (error) {
-      
         console.error(error);
       }
     }
@@ -127,7 +126,7 @@ const Login = () => {
       <View style={styles.logo}>
         <Image
           style={styles.image}
-          source={require("../assets/images/Mentor.png")}
+          source={require("../../assets/images/Mentor.png")}
         />
       </View>
       <View style={styles.centerContent}>
