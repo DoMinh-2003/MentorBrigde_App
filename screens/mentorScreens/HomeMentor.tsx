@@ -12,10 +12,15 @@ import { Box } from "@/components/ui/box";
 import { VStack } from "@/components/ui/vstack";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Feather from "@expo/vector-icons/Feather";
-
+import { VictoryBar, VictoryChart, VictoryTheme } from "victory-native";
 const HomeMentor = () => {
   const insets = useSafeAreaInsets();
-
+  const data = [
+    { quarter: 1, earnings: 13000 },
+    { quarter: 2, earnings: 16500 },
+    { quarter: 3, earnings: 14250 },
+    { quarter: 4, earnings: 19000 },
+  ];
   return (
     <ScrollView
       nestedScrollEnabled={true}
@@ -26,7 +31,7 @@ const HomeMentor = () => {
       <Text className="font-extra-bold-cereal text-2xl font-bold mb-5">
         Trang chủ
       </Text>
-
+   
       {/* View Next Meeting */}
       <Card size="lg" variant="elevated" className="p-0 rounded-2xl h-[180px]">
         <ImageBackground
