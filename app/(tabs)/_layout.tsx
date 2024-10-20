@@ -54,7 +54,7 @@ export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <Stack.Navigator initialRouteName="Login">
+    <Stack.Navigator initialRouteName="HomeMentor">
       <Stack.Screen
         name="Login"
         component={Login}
