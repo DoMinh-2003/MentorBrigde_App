@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { VictoryPie } from "victory-native";
+import { VictoryPie, VictoryTooltip } from "victory-native";
 interface PieProps {
   data: { x: string; y: number }[];
   colors: { [key: string]: string };
@@ -10,7 +10,7 @@ const Pie: React.FC<PieProps> = ({ data, colors }) => {
     <View className="flex-1 justify-center items-center">
       <VictoryPie
         data={data}
-        // labelComponent={null} // Hide labels
+        labelComponent={<VictoryTooltip/>}
         cornerRadius={25}
         innerRadius={75}
         style={{
@@ -21,7 +21,7 @@ const Pie: React.FC<PieProps> = ({ data, colors }) => {
             },
           },
           labels: {
-            fill: "white", // Label color
+            fill: "black", // Label color
           },
         }}
       />
