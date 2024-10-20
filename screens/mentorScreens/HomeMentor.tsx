@@ -37,7 +37,7 @@ const HomeMentor = () => {
         >
           <View className="h-full  flex flex-col justify-between">
             <View>
-              <Text className="text-xs font-medium-cereal font-bold text-white">
+              <Text className="text-base font-medium-cereal font-bold text-white">
                 Buổi hẹn tiếp theo sẽ bắt đầu vào
               </Text>
               <Text className="text-2xl font-extra-bold-cereal text-white font-bold">
@@ -49,7 +49,7 @@ const HomeMentor = () => {
                 variant="solid"
                 action="primary"
                 style={{
-                  width: 103,
+                  width: 105,
                   backgroundColor: "black",
                   borderRadius: 99999,
                 }}
@@ -91,7 +91,7 @@ const HomeMentor = () => {
             variant="solid"
             action="primary"
             style={{
-              width: 120,
+              width: 125,
               backgroundColor: "black",
               borderRadius: 99999,
             }}
