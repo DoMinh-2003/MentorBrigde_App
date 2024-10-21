@@ -9,6 +9,7 @@ import HomeStudent from "@/screens/studentScreens/HomeStudent";
 import Profile from "@/screens/Profile";
 import Login from "@/screens/authScreens/Login";
 
+
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -29,21 +30,50 @@ const HomeTabsMentor = () => {
         name="Home"
         component={HomeMentor}
         options={{
-          title: "HomeMentor",
+          title: "Trang chủ",
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="HomeStudent"
         component={HomeStudent}
         options={{
           title: "HomeStudent",
         }}
+      /> */}
+      <Tab.Screen
+        name="Schedule"
+        component={Profile}
+        options={{
+          title: "Lịch Trình",
+        }}
       />
       <Tab.Screen
+        name="Request"
+        component={Profile}
+        options={{
+          title: "Xử lí yêu cầu",
+        }}
+      />
+      <Tab.Screen
+        name="Notifications"
+        component={Profile}
+        options={{
+          title: "Thông báo",
+        }}
+      />
+
+      {/* <Tab.Screen
         name="Profile"
         component={Profile}
         options={{
-          title: "Profile",
+          title: "Hồ sơ",
+        }}
+      /> */}
+      <Tab.Screen
+        name="Setting"
+        component={Profile}
+        options={{
+          title: "Cài đặt",
         }}
       />
     </Tab.Navigator>

@@ -6,7 +6,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const TabBar = ({ state, descriptors, navigation }) => {
   const insets = useSafeAreaInsets();
-  const primaryColor = "red";
+  const primaryColor = "#FF6001";
   const greyColor = "#737373";
   return (
     <View style={[styles.tabbar, { paddingBottom: insets.bottom }]}>
