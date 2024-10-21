@@ -8,6 +8,7 @@ import HomeMentor from "@/screens/mentorScreens/HomeMentor";
 import HomeStudent from "@/screens/studentScreens/HomeStudent";
 import Profile from "@/screens/Profile";
 import Login from "@/screens/authScreens/Login";
+import MentorSchedule from "@/screens/mentorScreens/schedule/MentorSchedule";
 
 
 const Stack = createNativeStackNavigator();
@@ -42,7 +43,7 @@ const HomeTabsMentor = () => {
       /> */}
       <Tab.Screen
         name="Schedule"
-        component={Profile}
+        component={MentorSchedule}
         options={{
           title: "Lịch Trình",
         }}
