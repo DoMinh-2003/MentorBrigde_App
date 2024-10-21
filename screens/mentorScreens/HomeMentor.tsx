@@ -12,8 +12,8 @@ import { Box } from "@/components/ui/box";
 import { VStack } from "@/components/ui/vstack";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Feather from "@expo/vector-icons/Feather";
-
 import Pie from "@/components/chart/Pie";
+
 const HomeMentor = () => {
   const insets = useSafeAreaInsets();
   const pieData = [
