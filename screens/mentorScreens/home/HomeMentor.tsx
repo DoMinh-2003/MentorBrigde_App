@@ -39,7 +39,7 @@ const HomeMentor = () => {
       {/* View Next Meeting */}
       <Card size="lg" variant="elevated" className="p-0 rounded-2xl h-[180px]">
         <ImageBackground
-          source={require("../../assets/images/blue-abstract.png")}
+          source={require("../../../assets/images/blue-abstract.png")}
           resizeMode="cover"
           imageStyle={{ borderRadius: 16 }}
           className="flex-1 p-4"
@@ -76,7 +76,7 @@ const HomeMentor = () => {
 
       <Card className="p-0 h-[380px] mt-5 rounded-2xl">
         <ImageBackground
-          source={require("../../assets/images/bgChart.png")}
+          source={require("../../../assets/images/bgChart.png")}
           resizeMode="cover"
           imageStyle={{ borderRadius: 16 }}
           className="flex-1 px-4"
@@ -141,7 +141,7 @@ const HomeMentor = () => {
       {/* History of topic */}
       <Card className="p-0 mt-5 h-[260px] rounded-2xl mb-20">
         <ImageBackground
-          source={require("../../assets/images/Rectangle28.png")}
+          source={require("../../../assets/images/Rectangle28.png")}
           resizeMode="cover"
           imageStyle={{ borderRadius: 16 }}
           className="flex-1 p-4"
