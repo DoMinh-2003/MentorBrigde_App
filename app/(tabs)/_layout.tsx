@@ -9,6 +9,7 @@ import HomeStudent from "@/screens/studentScreens/HomeStudent";
 import Profile from "@/screens/Profile";
 import Login from "@/screens/authScreens/Login";
 import MentorSchedule from "@/screens/mentorScreens/schedule/MentorSchedule";
+import ProcessingRequest from "@/screens/mentorScreens/processingRequest/ProcessingRequest";
 
 
 const Stack = createNativeStackNavigator();
@@ -50,7 +51,7 @@ const HomeTabsMentor = () => {
       />
       <Tab.Screen
         name="Request"
-        component={Profile}
+        component={ProcessingRequest}
         options={{
           title: "Xử lí yêu cầu",
         }}
