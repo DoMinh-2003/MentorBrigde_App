@@ -89,7 +89,7 @@ const HomeMentor = () => {
               <Feather name="eye" size={24} color="white" />
             </View>
           </View>
-          <Pie data={pieData} colors={pieColors} />
+          <Pie data={pieData} colorScale={["#FF6001", "#FFCEB0"]} />
         </ImageBackground>
       </Card>
 

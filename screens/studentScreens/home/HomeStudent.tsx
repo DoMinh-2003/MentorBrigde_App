@@ -22,10 +22,6 @@ const HomeStudent = () => {
     { x: "bad", y: 35 },
   ];
 
-  const pieColors = {
-    point: "#FFFFFF",
-    bad: "#DEDEE0",
-  };
   return (
     <ScrollView
       nestedScrollEnabled={true}
@@ -87,7 +83,7 @@ const HomeStudent = () => {
               Số điểm còn lại trong kì (65/100)
             </Text>
           </View>
-          <Pie data={pieData} colors={pieColors} />
+          <Pie data={pieData} colorScale={["#FFFFFF", "#DEDEE0"]} />
         </ImageBackground>
       </Card>
 
