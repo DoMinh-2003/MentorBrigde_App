@@ -164,8 +164,14 @@ const HomeMentor = () => {
               </Button>
             </View>
 
-            <VStack space="2xl" reversed={false} className="mt-4">
-              <Box className="h-12 w-full rounded-full bg-white flex items-center justify-center">
+            <ScrollView
+              nestedScrollEnabled={true}
+              scrollEnabled={true}
+              showsVerticalScrollIndicator={true}
+              persistentScrollbar={true}
+              className="mt-4 h-4/5"
+            >
+              <Box className="h-12 w-full rounded-full bg-white flex items-center justify-center mb-5">
                 <View className="flex-row justify-around items-center w-full">
                   <Text>ConnectED-...</Text>
                   <Text className="font-bold">30-08-2024</Text>
@@ -185,7 +191,7 @@ const HomeMentor = () => {
                   </Button>
                 </View>
               </Box>
-              <Box className="h-12 w-full rounded-full bg-white flex items-center justify-center">
+              <Box className="h-12 w-full rounded-full bg-white flex items-center justify-center mb-5">
                 <View className="flex-row justify-around items-center w-full">
                   <Text>ConnectED-...</Text>
                   <Text className="font-bold">30-08-2024</Text>
@@ -205,7 +211,8 @@ const HomeMentor = () => {
                   </Button>
                 </View>
               </Box>
-              <Box className="h-12 w-full rounded-full bg-white flex items-center justify-center">
+
+              <Box className="h-12 w-full rounded-full bg-white flex items-center justify-center mb-5">
                 <View className="flex-row justify-around items-center w-full">
                   <Text>ConnectED-...</Text>
                   <Text className="font-bold">30-08-2024</Text>
@@ -225,7 +232,7 @@ const HomeMentor = () => {
                   </Button>
                 </View>
               </Box>
-            </VStack>
+            </ScrollView>
           </View>
         </ImageBackground>
       </Card>
