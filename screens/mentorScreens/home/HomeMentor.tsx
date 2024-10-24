@@ -13,18 +13,17 @@ import { VStack } from "@/components/ui/vstack";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Feather from "@expo/vector-icons/Feather";
 import Pie from "@/components/chart/Pie";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
 
-const HomeStudent = () => {
+const HomeMentor = () => {
   const insets = useSafeAreaInsets();
   const pieData = [
-    { x: "point", y: 65 },
+    { x: "good", y: 65 },
     { x: "bad", y: 35 },
   ];
 
   const pieColors = {
-    point: "#FFFFFF",
-    bad: "#DEDEE0",
+    good: "#FF6001",
+    bad: "#FFCEB0",
   };
   return (
     <ScrollView
@@ -40,12 +39,12 @@ const HomeStudent = () => {
       {/* View Next Meeting */}
       <Card size="lg" variant="elevated" className="p-0 rounded-2xl h-[180px]">
         <ImageBackground
-          source={require("../../assets/images/student1.png")}
+          source={require("../../../assets/images/blue-abstract.png")}
           resizeMode="cover"
           imageStyle={{ borderRadius: 16 }}
           className="flex-1 p-4"
         >
-          <View className="h-full flex flex-col justify-between">
+          <View className="h-full  flex flex-col justify-between">
             <View>
               <Text className="text-base font-medium-cereal font-bold text-white">
                 Buổi hẹn tiếp theo sẽ bắt đầu vào
@@ -77,35 +76,38 @@ const HomeStudent = () => {
 
       <Card className="p-0 h-[380px] mt-5 rounded-2xl">
         <ImageBackground
-          source={require("../../assets/images/bgChartStudent.png")}
+          source={require("../../../assets/images/bgChart.png")}
           resizeMode="cover"
           imageStyle={{ borderRadius: 16 }}
           className="flex-1 px-4"
         >
           <View className="flex flex-row justify-between items-center mt-0 h-1/5">
             <Text className="font-bold text-sm text-white">
-              Số điểm còn lại trong kì (65/100)
+              Tỉ lệ phản hồi tích cực từ sinh viên (%)
             </Text>
+            <View className="bg-[#FFFFFF30] rounded-xl w-10 h-10 text-center flex items-center justify-center">
+              <Feather name="eye" size={24} color="white" />
+            </View>
           </View>
-          <Pie data={pieData} colors={pieColors} />
+          <Pie data={pieData} colorScale={["#FF6001", "#FFCEB0"]} />
         </ImageBackground>
       </Card>
 
       {/* List of topic */}
-      <Card className="mt-5 border border-[#D5D5D7] h-[340px] rounded-2xl w-full">
-        <View className="flex flex-row justify-between items-center mt-0 h-1/5 l">
-          <Text className="font-bold text-base">Danh sách thành viên nhóm</Text>
+      <Card className="mt-5 border border-[#D5D5D7] h-[340px] rounded-2xl">
+        <View className="flex flex-row justify-between items-center mt-0 h-1/5">
+          <Text className="font-bold text-[16px]">Danh sách đề tài</Text>
           <Button
             variant="solid"
             action="primary"
             style={{
-              width: 120,
+              width: 125,
               backgroundColor: "black",
               borderRadius: 99999,
             }}
           >
             <ButtonText className="text-[10px] font-medium-cereal text-center">
-              Thêm thành viên
+              Thêm đề tài mới +
             </ButtonText>
           </Button>
         </View>
@@ -117,24 +119,17 @@ const HomeStudent = () => {
             persistentScrollbar={true}
             className="mt-4"
           >
-            {[...Array(5)].map((_, index) => (
+            {[...Array(10)].map((_, index) => (
               <Box
                 key={index}
                 className="h-12 w-full rounded-full border border-[#D5D5D7] flex items-center justify-center px-1 mb-5"
               >
                 <View className="flex-row justify-around items-center w-full">
-                  <Avatar size="sm">
-                    <AvatarImage
-                      source={{
-                        uri: "https://s3-alpha-sig.figma.com/img/1637/1983/6ac5551c7e129fc98770ede7a8f18b06?Expires=1730073600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=dzTLnjTqvHE2zAILcZD2zWFYLwnooE35m2L5gespUn62orhDg4xyHtJV7NtlIQDAJ~PNF4BzWehqsYahWRhUB4tNjMQcagtWTX35hO9nLzeY5lU6OOuuPV0EL1Aqs-MiNE4fNJPxlab~5I9mn3V4-XmQcYyoDDwqr9-J83-62b2FdwB1iG1H7WMxOTu7Jq609hhSCJpengLdMDH1nR2d2ZNfNyfYFvkJyJ-hzhqhCgQc~gxh-5QqpBFqFa7rymyFqRlJUKNmWU~~H6sMFoya7dACt0SRyK3QK7r3CJ1c3HNE1sG12lo7tVJ1iJveZK43pw4~q7Sv0q6iQ7BXLMDhaA__",
-                      }}
-                    />
-                  </Avatar>
-
-                  <Text numberOfLines={1} className="font-bold">
-                    SE121212
+                  <Text className="font-bold">{index + 1}</Text>
+                  <Text numberOfLines={1} className="w-3/4">
+                    ConnectED – Nền tảng kết nối sinh viên và giảng viên để học
+                    tập và hỗ trợ trực tuyến.
                   </Text>
-                  <Text className="font-bold">Nhóm trưởng</Text>
                   <Text className="font-extrabold">...</Text>
                 </View>
               </Box>
@@ -146,16 +141,14 @@ const HomeStudent = () => {
       {/* History of topic */}
       <Card className="p-0 mt-5 h-[260px] rounded-2xl mb-20">
         <ImageBackground
-          source={require("../../assets/images/student2.png")}
+          source={require("../../../assets/images/Rectangle28.png")}
           resizeMode="cover"
           imageStyle={{ borderRadius: 16 }}
           className="flex-1 p-4"
         >
           <View>
             <View className="flex flex-row justify-between items-center">
-              <Text className="font-bold text-[16px] text-white">
-                Lịch sử yêu cầu cuộc họp
-              </Text>
+              <Text className="font-bold text-[16px]">Lịch sử thêm đề tài</Text>
               <Button
                 variant="solid"
                 action="primary"
@@ -171,11 +164,16 @@ const HomeStudent = () => {
               </Button>
             </View>
 
-            <VStack space="2xl" reversed={false} className="mt-4">
-              <Box className="h-12 w-full rounded-full bg-white flex items-center justify-center">
+            <ScrollView
+              nestedScrollEnabled={true}
+              scrollEnabled={true}
+              showsVerticalScrollIndicator={true}
+              persistentScrollbar={true}
+              className="mt-4 h-4/5"
+            >
+              <Box className="h-12 w-full rounded-full bg-white flex items-center justify-center mb-5">
                 <View className="flex-row justify-around items-center w-full">
-                  <Text className="font-bold">LamTV</Text>
-                  <Text>-3 điểm</Text>
+                  <Text>ConnectED-...</Text>
                   <Text className="font-bold">30-08-2024</Text>
                   <Button
                     variant="solid"
@@ -183,7 +181,7 @@ const HomeStudent = () => {
                     style={{
                       width: 91,
                       height: 30,
-                      backgroundColor: "#FF6001",
+                      backgroundColor: "#449CEE",
                       borderRadius: 99999,
                     }}
                   >
@@ -193,12 +191,9 @@ const HomeStudent = () => {
                   </Button>
                 </View>
               </Box>
-              <Box className="h-12 w-full rounded-full bg-white flex items-center justify-center">
+              <Box className="h-12 w-full rounded-full bg-white flex items-center justify-center mb-5">
                 <View className="flex-row justify-around items-center w-full">
-                  <Text numberOfLines={1} className="font-bold">
-                    LamTV
-                  </Text>
-                  <Text>0 điểm</Text>
+                  <Text>ConnectED-...</Text>
                   <Text className="font-bold">30-08-2024</Text>
                   <Button
                     variant="solid"
@@ -216,12 +211,10 @@ const HomeStudent = () => {
                   </Button>
                 </View>
               </Box>
-              <Box className="h-12 w-full rounded-full bg-white flex items-center justify-center">
+
+              <Box className="h-12 w-full rounded-full bg-white flex items-center justify-center mb-5">
                 <View className="flex-row justify-around items-center w-full">
-                  <Text numberOfLines={1} className="font-bold">
-                    LamTV
-                  </Text>
-                  <Text>-3 điểm</Text>
+                  <Text>ConnectED-...</Text>
                   <Text className="font-bold">30-08-2024</Text>
                   <Button
                     variant="solid"
@@ -239,7 +232,7 @@ const HomeStudent = () => {
                   </Button>
                 </View>
               </Box>
-            </VStack>
+            </ScrollView>
           </View>
         </ImageBackground>
       </Card>
@@ -247,4 +240,4 @@ const HomeStudent = () => {
   );
 };
 
-export default HomeStudent;
+export default HomeMentor;

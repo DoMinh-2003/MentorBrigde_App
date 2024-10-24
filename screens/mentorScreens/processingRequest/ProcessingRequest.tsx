@@ -68,17 +68,18 @@ function ProcessingRequest() {
         Xử lí yêu cầu đặt lịch
       </Text>
       <View>
-        <LinearGradient
+        <View
           className="rounded-full  w-full h-10 flex-row items-center justify-between p-2 mt-1"
-          colors={["#6EDEFE", "#2B90D8"]}
-          start={[0, 0]}
-          end={[1, 1]}
+          // colors={["#2AC0D8", "#2BC1D8"]}
+          // start={[0, 0]}
+          // end={[1, 1]}
+          style={{backgroundColor:"#2AC0D8", borderRadius:9999}}
         >
           <View className="flex-row justify-between w-[60%]">
             <Text className="text-white font-medium">Số thứ tự</Text>
             <Text className="text-white font-medium">Nhóm yêu cầu</Text>
           </View>
-        </LinearGradient>
+        </View>
       </View>
       <ScrollView
         nestedScrollEnabled={true}
@@ -99,6 +100,7 @@ function ProcessingRequest() {
               variant="solid"
               action="primary"
               onPress={() => handleOpen(request)}
+              style={{backgroundColor:"#2AC0D8"}}
             >
               <ButtonText>Chi tiết</ButtonText>
             </Button>

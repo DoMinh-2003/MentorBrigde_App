@@ -3,27 +3,23 @@ import { StyleSheet, Text, View } from "react-native";
 import { VictoryPie, VictoryTooltip } from "victory-native";
 interface PieProps {
   data: { x: string; y: number }[];
-  colors: { [key: string]: string };
+  colorScale: string[];
 }
-const Pie: React.FC<PieProps> = ({ data, colors }) => {
+const Pie: React.FC<PieProps> = ({ data,colorScale, ...props }) => {
   return (
     <View className="flex-1 justify-center items-center">
       <VictoryPie
         data={data}
-        labelComponent={<VictoryTooltip/>}
+        labelComponent={<VictoryTooltip />}
         cornerRadius={25}
         innerRadius={75}
         style={{
-          data: {
-            fill: ({ datum }) => {
-              // Get color based on data
-              return colors[datum.x] || "#DCDCDC"; // Default color if not found
-            },
-          },
           labels: {
             fill: "black", // Label color
           },
         }}
+        colorScale={colorScale}
+        {...props}
       />
     </View>
   );
