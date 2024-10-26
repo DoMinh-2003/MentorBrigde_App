@@ -13,18 +13,42 @@ import { VStack } from "@/components/ui/vstack";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Feather from "@expo/vector-icons/Feather";
 import Pie from "@/components/chart/Pie";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useCurrentUser } from "@/utils/getCurrentUser";
+import useTopicService from "@/service/useTopicService";
+import { Topic } from "@/models/topic";
 
 const HomeMentor = () => {
   const insets = useSafeAreaInsets();
+  const user = useCurrentUser();
+  const [topic, setTopic] = useState<Topic[] | undefined>();
+  const { getTopics } = useTopicService();
   const pieData = [
     { x: "good", y: 65 },
     { x: "bad", y: 35 },
   ];
 
-  const pieColors = {
-    good: "#FF6001",
-    bad: "#FFCEB0",
-  };
+  useEffect(() => {
+    const fetchTopic = async () => {
+      try {
+        const topics = await getTopics({
+          page: 1,
+          size: 10,
+          sortBy: "name",
+          sortDirection: "asc",
+          status: "",
+        });
+        setTopic(topics);
+        console.log(topics);
+        console.log("topic", topic);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchTopic();
+  }, []);
+
   return (
     <ScrollView
       nestedScrollEnabled={true}
@@ -119,7 +143,7 @@ const HomeMentor = () => {
             persistentScrollbar={true}
             className="mt-4"
           >
-            {[...Array(10)].map((_, index) => (
+            {topic?.map((t, index) => (
               <Box
                 key={index}
                 className="h-12 w-full rounded-full border border-[#D5D5D7] flex items-center justify-center px-1 mb-5"
@@ -127,8 +151,7 @@ const HomeMentor = () => {
                 <View className="flex-row justify-around items-center w-full">
                   <Text className="font-bold">{index + 1}</Text>
                   <Text numberOfLines={1} className="w-3/4">
-                    ConnectED – Nền tảng kết nối sinh viên và giảng viên để học
-                    tập và hỗ trợ trực tuyến.
+                    {t?.name}
                   </Text>
                   <Text className="font-extrabold">...</Text>
                 </View>
