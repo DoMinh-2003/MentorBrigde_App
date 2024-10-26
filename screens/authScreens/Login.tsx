@@ -104,7 +104,12 @@ const Login = () => {
         const { data } = response;
         dispatch(login(data));
         await AsyncStorage.setItem("token", data.token);
-        navigation.navigate("HomeMentor");
+
+        if (data.role == "STUDENT") {
+          navigation.navigate("HomeStudent");
+        } else {
+          navigation.navigate("HomeMentor");
+        }
       } catch (error) {
         console.error(error);
       }

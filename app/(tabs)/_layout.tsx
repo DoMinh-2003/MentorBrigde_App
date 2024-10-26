@@ -80,12 +80,58 @@ const HomeTabsMentor = () => {
     </Tab.Navigator>
   );
 };
+const HomeTabsStudent = () => {
+  const colorScheme = useColorScheme();
+
+  return (
+    <Tab.Navigator
+      tabBar={(props) => <TabBar {...props} />}
+      screenOptions={{
+        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+        headerShown: false,
+        tabBarStyle: { height: 90 },
+        tabBarItemStyle: { paddingTop: 10 },
+      }}
+    >
+      <Tab.Screen
+        name="Home"
+        component={HomeStudent}
+        options={{
+          title: "HomeStudent",
+        }}
+      />
+      <Tab.Screen
+        name="Schedule"
+        component={MentorSchedule}
+        options={{
+          title: "Lịch Trình",
+        }}
+      />
+
+      <Tab.Screen
+        name="Notifications"
+        component={Profile}
+        options={{
+          title: "Thông báo",
+        }}
+      />
+
+      <Tab.Screen
+        name="Setting"
+        component={Profile}
+        options={{
+          title: "Cài đặt",
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <Stack.Navigator initialRouteName="HomeMentor">
+    <Stack.Navigator initialRouteName="Login">
       <Stack.Screen
         name="Login"
         component={Login}
@@ -95,6 +141,11 @@ export default function TabLayout() {
         name="HomeMentor"
         component={HomeTabsMentor}
         options={{ headerShown: false, title: "HomeMentor" }}
+      />
+      <Stack.Screen
+        name="HomeStudent"
+        component={HomeTabsStudent}
+        options={{ headerShown: false, title: "HomeStudent" }}
       />
     </Stack.Navigator>
   );

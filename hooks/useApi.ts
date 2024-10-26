@@ -1,12 +1,12 @@
-import { useState, useCallback } from 'react';
-import api from '../config/api'; 
-import axios from 'axios';
+import { useState, useCallback } from "react";
+import api from "../config/api";
+
 const useApi = () => {
   const [loading, setIsLoading] = useState<boolean>(false);
 
   const callApi = useCallback(
     async (
-      method: 'get' | 'post' | 'put' | 'delete',
+      method: "get" | "post" | "put" | "delete" | "patch",
       url: string,
       data?: any,
       message?: string
@@ -23,7 +23,9 @@ const useApi = () => {
       } finally {
         setIsLoading(false);
       }
-    },[]);
+    },
+    []
+  );
 
   return { loading, callApi, setIsLoading };
 };
