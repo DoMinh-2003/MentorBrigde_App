@@ -14,9 +14,14 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import Feather from "@expo/vector-icons/Feather";
 import Pie from "@/components/chart/Pie";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { useCurrentUser } from "@/utils/getCurrentUser";
 
 const HomeStudent = () => {
   const insets = useSafeAreaInsets();
+
+  const user = useCurrentUser();
+  console.log("tran", user);
+
   const pieData = [
     { x: "point", y: 65 },
     { x: "bad", y: 35 },
