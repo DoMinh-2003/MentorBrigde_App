@@ -21,12 +21,16 @@ import { Topic } from "@/models/topic";
 import { SwipeablePanel } from "rn-swipeable-panel";
 import GroupSection from "@/components/group-section/TeamList";
 import TeamList from "@/components/group-section/TeamList";
+import useMentorService from "@/service/useMentorService";
 
 const HomeMentor = () => {
   const insets = useSafeAreaInsets();
   const user = useCurrentUser();
   const [topic, setTopic] = useState<Topic[] | undefined>();
   const { getTopics } = useTopicService();
+
+  const { getTeams } = useMentorService();
+  const [teams, setTeams] = useState([]);
   const pieData = [
     { x: "good", y: 65 },
     { x: "bad", y: 35 },
@@ -65,7 +69,17 @@ const HomeMentor = () => {
         console.log(error);
       }
     };
+
+    const fetchTeams = async () => {
+      try {
+        const response = await getTeams();
+        setTeams(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
     fetchTopic();
+    fetchTeams();
   }, []);
 
   return (
@@ -207,7 +221,7 @@ const HomeMentor = () => {
                 persistentScrollbar={true}
                 className="mt-4 h-4/5"
               >
-                <TeamList />
+                <TeamList groups={teams}/>
               </ScrollView>
             </View>
           </ImageBackground>
