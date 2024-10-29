@@ -13,7 +13,7 @@ import { VStack } from "@/components/ui/vstack";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Feather from "@expo/vector-icons/Feather";
 import Pie from "@/components/chart/Pie";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { useCurrentUser } from "@/utils/getCurrentUser";
 import useTopicService from "@/service/useTopicService";
@@ -22,6 +22,7 @@ import { SwipeablePanel } from "rn-swipeable-panel";
 import GroupSection from "@/components/group-section/TeamList";
 import TeamList from "@/components/group-section/TeamList";
 import useMentorService from "@/service/useMentorService";
+import { useFocusEffect } from "expo-router";
 
 const HomeMentor = () => {
   const insets = useSafeAreaInsets();
@@ -54,34 +55,30 @@ const HomeMentor = () => {
     setIsPanelActive(false);
   };
 
-  useEffect(() => {
-    const fetchTopic = async () => {
-      try {
-        const topics = await getTopics({
-          page: 1,
-          size: 10,
-          sortBy: "name",
-          sortDirection: "asc",
-          status: "",
-        });
-        setTopic(topics);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    const fetchTeams = async () => {
-      try {
-        const response = await getTeams();
-        setTeams(response);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchTopic();
-    fetchTeams();
-  }, []);
-
+  useFocusEffect(
+    useCallback(() => {
+      const fetchData = async () => {
+        try {
+          const [fetchedTopics, fetchedTeams] = await Promise.all([
+            getTopics({
+              page: 1,
+              size: 10,
+              sortBy: "name",
+              sortDirection: "asc",
+              status: "",
+            }),
+            getTeams(),
+          ]);
+          setTopic(fetchedTopics);
+          setTeams(fetchedTeams);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+  
+      fetchData();
+    }, []) 
+  );
   return (
     <View>
       <ScrollView
