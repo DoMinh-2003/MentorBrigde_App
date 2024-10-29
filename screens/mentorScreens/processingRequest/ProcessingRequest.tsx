@@ -3,7 +3,8 @@ import { ScrollView, Text, View } from "react-native";
 import { LinearGradient } from "@/components/ui/gradient/LinearGradient";
 import { Box } from "@/components/ui/box";
 import { Button, ButtonText } from "@/components/ui/button";
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 import {
   Modal,
   ModalBackdrop,
@@ -15,6 +16,8 @@ import {
 } from "@/components/ui/modal";
 import { Heading } from "@/components/ui/heading";
 import { CloseIcon, Icon } from "@/components/ui/icon";
+import useBookingService from "@/service/useBookingService";
+import { useFocusEffect } from "expo-router";
 
 interface Request {
   topic?: string;
@@ -26,27 +29,63 @@ function ProcessingRequest() {
   const insets = useSafeAreaInsets();
   const [showModal, setShowModal] = useState(false);
   const [selected, setSelected] = useState<Request>();
+  const [isFetching, setIsFetching] = useState({});
+  const [dataSource, setDataSource] = useState([]);
 
-  const requests: Request[] = [
-    {
-      topic:
-        "ConnectED – Nền tảng kết nối sinh viên và giảng viên để học tập và hỗ trợ trực tuyến.",
-      group: "Quasger",
-      time: "12-09-2024 | 12:30-13:30",
-    },
-    {
-      topic:
-        "SkillHub – Web học kỹ năng chuyên môn và chia sẻ kiến thức giữa mentor và mentee.",
-      group: "Banana",
-      time: "12-09-2024 | 12:30-13:30",
-    },
-    {
-      topic:
-        "EcoMarket – Chợ trực tuyến giao dịch các sản phẩm thân thiện với môi trường.",
-      group: "Mongahari",
-      time: "12-09-2024 | 12:30-13:30",
-    },
-  ];
+  const { getBooking, updateBooking } = useBookingService();
+
+  
+  useFocusEffect(
+    
+    useCallback(() => {
+      const fetchData = async () => {
+        await getBooking(undefined, "REQUESTED")
+           .then((response) => {
+             setDataSource(response);
+             console.log(response);
+           })
+           .catch((error) => {
+             console.error("Error fetching data:", error);
+           })
+       };
+     
+      fetchData();
+    },[isFetching])
+   
+  );
+
+  const handleReject = async (id: string) => {
+    const response = await updateBooking(id, "REJECTED");
+    setIsFetching(response);
+    setShowModal(false);
+  };
+
+  const handleApprove = async (id: string) => {
+    const response = await updateBooking(id, "ACCEPTED");
+    setIsFetching(response);
+    setShowModal(false);
+  };
+
+  // const requests: Request[] = [
+  //   {
+  //     topic:
+  //       "ConnectED – Nền tảng kết nối sinh viên và giảng viên để học tập và hỗ trợ trực tuyến.",
+  //     group: "Quasger",
+  //     time: "12-09-2024 | 12:30-13:30",
+  //   },
+  //   {
+  //     topic:
+  //       "SkillHub – Web học kỹ năng chuyên môn và chia sẻ kiến thức giữa mentor và mentee.",
+  //     group: "Banana",
+  //     time: "12-09-2024 | 12:30-13:30",
+  //   },
+  //   {
+  //     topic:
+  //       "EcoMarket – Chợ trực tuyến giao dịch các sản phẩm thân thiện với môi trường.",
+  //     group: "Mongahari",
+  //     time: "12-09-2024 | 12:30-13:30",
+  //   },
+  // ];
 
   const handleOpen = (e: Request) => {
     setShowModal(true);
@@ -57,6 +96,14 @@ function ProcessingRequest() {
     setShowModal(false);
   };
 
+  const getName = (value) => {
+    if(value?.student){
+       return value?.student?.studentCode || "NoName"
+    }else{
+      return value.team.code
+    }
+  }
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -64,6 +111,8 @@ function ProcessingRequest() {
       style={{ paddingTop: insets.top }}
       className="m-[15px]"
     >
+
+      
       <Text className="font-extra-bold-cereal text-2xl font-bold mb-5">
         Xử lí yêu cầu đặt lịch
       </Text>
@@ -77,7 +126,7 @@ function ProcessingRequest() {
         >
           <View className="flex-row justify-between w-[60%]">
             <Text className="text-white font-medium">Số thứ tự</Text>
-            <Text className="text-white font-medium">Nhóm yêu cầu</Text>
+            <Text className="text-white font-medium">Yêu cầu</Text>
           </View>
         </View>
       </View>
@@ -88,13 +137,15 @@ function ProcessingRequest() {
         persistentScrollbar={true}
         className="mt-4 "
       >
-        {requests.map((request, idx) => (
+        {dataSource.map((request, idx) => (
           <Box
             key={idx}
             className="h-12 w-full rounded-full  border border-[#D5D5D7] flex-row items-center justify-between px-2 mb-5"
           >
+            
             <Text className="font-bold">{idx + 1}</Text>
-            <Text>{request.group}</Text>
+            {!request?.student ?<FontAwesome name="users" size={20} color="black" />: <FontAwesome name="user" size={24} color="black" />}
+            <Text>{getName(request)}</Text>
             <Button
               className="rounded-full"
               variant="solid"
@@ -153,7 +204,7 @@ function ProcessingRequest() {
               variant="outline"
               action="secondary"
               onPress={() => {
-                setShowModal(false);
+               handleReject(selected?.id)
               }}
               className="rounded-full"
             >
@@ -161,7 +212,7 @@ function ProcessingRequest() {
             </Button>
             <Button
               onPress={() => {
-                setShowModal(false);
+                handleApprove(selected?.id)
               }}
               className="rounded-full"
             >
