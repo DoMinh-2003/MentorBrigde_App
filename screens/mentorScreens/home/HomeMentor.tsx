@@ -80,7 +80,7 @@ const HomeMentor = () => {
     }, []) 
   );
   return (
-    <View>
+    <View style={{marginBottom: 80}}>
       <ScrollView
         nestedScrollEnabled={true}
         showsVerticalScrollIndicator={false}
