@@ -10,6 +10,7 @@ import Profile from "@/screens/Profile";
 import Login from "@/screens/authScreens/Login";
 import MentorSchedule from "@/screens/mentorScreens/schedule/MentorSchedule";
 import ProcessingRequest from "@/screens/mentorScreens/processingRequest/ProcessingRequest";
+import Notification from "@/screens/Notification";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -57,7 +58,7 @@ const HomeTabsMentor = () => {
       />
       <Tab.Screen
         name="Notifications"
-        component={Profile}
+        component={Notification}
         options={{
           title: "Thông báo",
         }}
