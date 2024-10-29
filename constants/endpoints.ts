@@ -29,10 +29,16 @@ export enum SCHEDULE_API {
 }
 export enum BOOKING_API {
   BOOKING = "booking",
+  BOOKING_NEARST = "booking/nearest",
   MENTOR_MEETING = "booking/mentor-meeting",
+  STUDENT_MEETING = "booking/student-meeting",
 }
 
 export enum TEAM_API {
   TEAM = "team",
   INVITE = "invite",
+}
+
+export enum NOTIFICATIONAPIS {
+  NOTIFICATION = "notifications",
 }
