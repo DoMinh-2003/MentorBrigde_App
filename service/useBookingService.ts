@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback } from "react";
 import useApiService from "../hooks/useApi";
-import { toast } from "react-toastify";
 import { BOOKING_API, SCHEDULE_API } from "../constants/endpoints";
-import { useCurrentUser } from "../utils/getcurrentUser";
+import { useCurrentUser } from "@/utils/getCurrentUser";
+
+
 
 const useBookingService = () => {
   const { callApi, loading, setIsLoading } = useApiService();
@@ -16,10 +17,11 @@ const useBookingService = () => {
           "post",
           `${BOOKING_API.BOOKING}?timeFrameId=${timeFrameId}&type=${type}`
         );
-        toast.success("Booking Successful!");
+       
         return response?.data;
       } catch (e: any) {
-        toast.error(e?.response?.data || "Failed to Book");
+        console.log(e?.response?.data || "Failed to Book");
+       
       } finally {
         setIsLoading(false);
       }
@@ -61,7 +63,8 @@ const useBookingService = () => {
         const response = await callApi("get", `${PATH}?month=${month}`);
         return response?.data;
       } catch (e: any) {
-        toast.error(e?.response?.data || "Failed to get data");
+        console.log(e?.response?.data || "Failed to get data");
+       
       } finally {
         setIsLoading(false);
       }
@@ -75,7 +78,8 @@ const useBookingService = () => {
       const response = await callApi("get", BOOKING_API.BOOKING_NEARST);
       return response?.data;
     } catch (e: any) {
-      toast.error(e?.response?.data || "Failed to get data");
+      console.log(e?.response?.data || "Failed to get data");
+     
     } finally {
       setIsLoading(false);
     }
@@ -92,10 +96,9 @@ const useBookingService = () => {
           id: id,
           status: status,
         });
-        toast.success("Cập nhật thành công!");
         return response?.data;
       } catch (e: any) {
-        toast.error(e?.response?.data || "Failed to get data");
+        console.log(e?.response?.data || "Failed to get data");
       } finally {
         setIsLoading(false);
       }
