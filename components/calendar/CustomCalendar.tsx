@@ -4,8 +4,16 @@ import { View } from "react-native";
 interface CalendarProps {
   selected?: string;
   setSelected?: (date: string) => void;
+  bookings?: { [key: string]: any[] }
 }
-const CustomCalendar: FC<CalendarProps> = ({ selected, setSelected }) => {
+const CustomCalendar: FC<CalendarProps> = ({ selected, setSelected, bookings }) => {
+  const markedDates = Object.keys(bookings).reduce((acc, date) => {
+    acc[date] = {
+      marked: true,
+      dotColor: "#FF6001", // Màu của dấu chấm
+    };
+    return acc;
+  }, {});
   return (
     <View>
       <Calendar
@@ -29,10 +37,10 @@ const CustomCalendar: FC<CalendarProps> = ({ selected, setSelected }) => {
           setSelected(day.dateString);
         }}
         markedDates={{
+          ...markedDates,
           [selected]: {
             selected: true,
             disableTouchEvent: true,
-            // selectedDotColor: "#FF6001",
             selectedColor: "#FF6001",
           },
         }}
