@@ -40,13 +40,13 @@ import { SystemRole } from "@/models/role";
 import useAdminService from "@/service/useAdminService";
 import { useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Alert } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Box } from "@/components/ui/box";
 import { Button, ButtonText } from "@/components/ui/button";
 import useBookingService from "@/service/useBookingService";
-
-
+import useScheduleService from "@/service/useScheduleService";
+import { formatHours } from "@/utils/dateFormat";
 
 export type Mentor = {
   avatar: string;
@@ -60,6 +60,13 @@ export type Mentor = {
   studentCode: string;
   teamCode: string | null;
   username: string;
+};
+
+export interface TimeFrame {
+  id: string;
+  timeFrameFrom: string;
+  timeFrameTo: string;
+  timeFrameStatus: string;
 }
 
 const Booking = () => {
@@ -75,20 +82,10 @@ const Booking = () => {
   const [error, setError] = useState(true);
   const { getSchedule } = useScheduleService();
 
-
   const handleChangeType = (value: any) => {
     console.log(value);
     setSelectedType(value);
   };
-
-  const handleChangeMentor = (value: any) => {
-    console.log(value);
-    setSelectedMentor(value);
-    if (error) setError(false);
-  };
-
- 
-
 
   useFocusEffect(
     useCallback(() => {
@@ -115,11 +112,13 @@ const Booking = () => {
   );
 
   const handleChange = (value: string) => {
+    if(value) setError(false)
     setSelectedMentorId(value);
     setSelectedMentor(items?.find((item) => item?.value === value)?.label);
     setIsFetching(true);
     getSchedule(value)
       .then((listSchedule) => {
+        console.log(listSchedule);
         setScheduleItems(listSchedule);
       })
       .catch((error) => {
@@ -130,7 +129,6 @@ const Booking = () => {
       });
   };
 
-  
   return (
     <View style={{ paddingTop: insets.top }} className="m-[15px]">
       <Text className="font-extra-bold-cereal text-2xl font-bold mb-5">
@@ -144,22 +142,23 @@ const Booking = () => {
             <FormControlLabel>
               <FormControlLabelText>Chọn giảng viên</FormControlLabelText>
             </FormControlLabel>
-            <Select
-              onValueChange={handleChangeMentor}
-              selectedValue={selectedMentor}
-            >
+            <Select onValueChange={handleChange} selectedValue={selectedMentor}>
               <SelectTrigger variant="rounded">
                 <SelectInput placeholder="Select option" />
                 <SelectIcon className="mr-3" as={ChevronDownIcon} />
               </SelectTrigger>
-              <SelectPortal >
+              <SelectPortal>
                 <SelectBackdrop />
-                <SelectContent >
+                <SelectContent>
                   <SelectDragIndicatorWrapper>
                     <SelectDragIndicator />
                   </SelectDragIndicatorWrapper>
-                  {items?.map((item: any, index) =>(
-                      <SelectItem key={index} label={item?.label} value={item?.value} />
+                  {items?.map((item: any, index) => (
+                    <SelectItem
+                      key={index}
+                      label={item?.label}
+                      value={item?.value}
+                    />
                   ))}
                 </SelectContent>
               </SelectPortal>
@@ -186,9 +185,8 @@ const Booking = () => {
             </FormControlLabel>
             <Select
               onValueChange={handleChangeType}
-              selectedValue={selectedType}       
-        >
-
+              selectedValue={selectedType}
+            >
               <SelectTrigger variant="rounded">
                 <SelectInput placeholder="Select option" />
                 <SelectIcon className="mr-3" as={ChevronDownIcon} />
@@ -202,7 +200,6 @@ const Booking = () => {
 
                   <SelectItem label="Cá nhân" value="INDIVIDUAL" />
                   <SelectItem label="Nhóm" value="TEAM" />
-
                 </SelectContent>
               </SelectPortal>
             </Select>
@@ -223,104 +220,73 @@ const Booking = () => {
         isDisabled={false}
         className="w-full border border-outline-200 mt-5 rounded-xl"
       >
-        <AccordionItem value="a">
-          <AccordionHeader>
-            <AccordionTrigger>
-              {({ isExpanded }) => {
-                return (
-                  <>
-                    <AccordionTitleText>2024-12-30</AccordionTitleText>
-                    {isExpanded ? (
-                      <AccordionIcon as={ChevronUpIcon} className="ml-3" />
-                    ) : (
-                      <AccordionIcon as={ChevronDownIcon} className="ml-3" />
-                    )}
-                  </>
-                );
-              }}
-            </AccordionTrigger>
-          </AccordionHeader>
-          <AccordionContent>
-            <Box className="h-12 w-full rounded-full border border-[#D5D5D7] flex items-center justify-center px-1 mb-5">
-              <View className="flex flex-row justify-between items-center w-full">
-                <Text>Emily White</Text>
-                <Text className="font-bold">00:00 - 01:00</Text>
-                <Button
-                  variant="solid"
-                  action="primary"
-                  style={{
-                    width: 106,
-                    backgroundColor: "black",
-                    borderRadius: 99999,
+        {scheduleItems &&
+          Object.entries(scheduleItems).map(([date, timeFrames]) => (
+            <AccordionItem value={date}>
+              <AccordionHeader>
+                <AccordionTrigger>
+                  {({ isExpanded }) => {
+                    return (
+                      <>
+                        <AccordionTitleText>{date}</AccordionTitleText>
+                        {isExpanded ? (
+                          <AccordionIcon as={ChevronUpIcon} className="ml-3" />
+                        ) : (
+                          <AccordionIcon
+                            as={ChevronDownIcon}
+                            className="ml-3"
+                          />
+                        )}
+                      </>
+                    );
                   }}
-                >
-                  <ButtonText className="text-base font-medium-cereal text-center">
-                    Đặt lịch
-                  </ButtonText>
-                </Button>
-              </View>
-            </Box>
-          </AccordionContent>
-        </AccordionItem>
-        <Divider />
-        <AccordionItem value="b">
-          <AccordionHeader>
-            <AccordionTrigger>
-              {({ isExpanded }) => {
-                return (
-                  <>
-                    <AccordionTitleText>2024-12-31</AccordionTitleText>
-                    {isExpanded ? (
-                      <AccordionIcon as={ChevronUpIcon} className="ml-3" />
-                    ) : (
-                      <AccordionIcon as={ChevronDownIcon} className="ml-3" />
-                    )}
-                  </>
-                );
-              }}
-            </AccordionTrigger>
-          </AccordionHeader>
-          <AccordionContent>
-            <Box className="h-12 w-full rounded-full border border-[#D5D5D7] flex items-center justify-center px-1 mb-5">
-              <View className="flex flex-row justify-between items-center w-full">
-                <Text>Emily White</Text>
-                <Text className="font-bold">00:00 - 01:00</Text>
-                <Button
-                  variant="solid"
-                  action="primary"
-                  style={{
-                    width: 106,
-                    backgroundColor: "black",
-                    borderRadius: 99999,
-                  }}
-                >
-                  <ButtonText className="text-base font-medium-cereal text-center">
-                    Đặt lịch
-                  </ButtonText>
-                </Button>
-              </View>
-            </Box>
-            <Box className="h-12 w-full rounded-full border border-[#D5D5D7] flex items-center justify-center px-1 mb-5">
-              <View className="flex flex-row justify-between items-center w-full">
-                <Text>Emily White</Text>
-                <Text className="font-bold">10:00 - 11:00</Text>
-                <Button
-                  variant="solid"
-                  action="primary"
-                  style={{
-                    width: 106,
-                    backgroundColor: "black",
-                    borderRadius: 99999,
-                  }}
-                >
-                  <ButtonText className="text-base font-medium-cereal text-center">
-                    Đặt lịch
-                  </ButtonText>
-                </Button>
-              </View>
-            </Box>
-          </AccordionContent>
-        </AccordionItem>
+                </AccordionTrigger>
+              </AccordionHeader>
+
+              <AccordionContent>
+                {timeFrames?.filter(
+                  (timeFrame: TimeFrame) =>
+                    timeFrame?.timeFrameStatus === "AVAILABLE"
+                ).length > 0 ? (
+                  timeFrames
+                    .filter(
+                      (timeFrame: TimeFrame) =>
+                        timeFrame?.timeFrameStatus === "AVAILABLE"
+                    )
+                    .map((timeFrame: TimeFrame) => (
+                      <>
+                        <Box className="h-12 w-full rounded-full border border-[#D5D5D7] flex items-center justify-center px-1 mb-5">
+                          <View className="flex flex-row justify-between items-center w-full">
+                            <Text className="ml-3">{selectedMentor}</Text>
+                            <Text className="font-bold">
+                              {formatHours(timeFrame?.timeFrameFrom)} - 
+                              {formatHours(timeFrame?.timeFrameTo)}
+                            </Text>
+                            <Button
+                              variant="solid"
+                              action="primary"
+                              style={{
+                                width: 106,
+                                backgroundColor: "black",
+                                borderRadius: 99999,
+                              }}
+                            >
+                              <ButtonText className="text-base font-medium-cereal text-center">
+                                Đặt lịch
+                              </ButtonText>
+                            </Button>
+                          </View>
+                        </Box>
+                      </>
+                    ))
+                ) : (
+                  Alert.alert("Thông báo", "Không có khung giờ nào khả dụng", [{ text: "OK" }])
+                )}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+
+        {/* <Divider /> */}
       </Accordion>
     </View>
   );
