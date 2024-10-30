@@ -1,9 +1,9 @@
 import { Box } from "@/components/ui/box";
-import { Text } from "@/components/ui/text";
+// import { Text } from "@/components/ui/text";
 import useNotificationService from "@/service/useNotificationService";
 import { useFocusEffect } from "expo-router";
 import React, { useCallback, useState } from "react";
-import { View, FlatList, StyleSheet } from "react-native";
+import { View, FlatList, StyleSheet, Text} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 // Dữ liệu thông báo
@@ -51,9 +51,9 @@ const Notification = () => {
       bg="#f9f9f9"
       mb={3}
     >
-      <Text fontWeight="bold">{item.title}</Text>
+      <Text >{item.title}</Text>
       <Text>{item.message}</Text>
-      <Text fontSize="sm" color="#999">
+      <Text>
         {new Date(item.createdAt).toLocaleString()}
       </Text>
     </Box>
@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
     marginBottom: 80,
   },
   header: {
+    // marginTop: 20,
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 16,
