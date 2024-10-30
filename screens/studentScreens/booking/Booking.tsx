@@ -77,7 +77,7 @@ const Booking = () => {
   const [scheduleItems, setScheduleItems] = useState([]);
   const [isFetching, setIsFetching] = useState(false);
   const [selectedMentorId, setSelectedMentorId] = useState("");
-  const [selectedType, setSelectedType] = useState("");
+  const [selectedType, setSelectedType] = useState("INDIVIDUAL");
   const [selectedMentor, setSelectedMentor] = useState("");
   const [error, setError] = useState(true);
   const { getSchedule } = useScheduleService();
@@ -118,7 +118,6 @@ const Booking = () => {
     setIsFetching(true);
     getSchedule(value)
       .then((listSchedule) => {
-        console.log(listSchedule);
         setScheduleItems(listSchedule);
       })
       .catch((error) => {
@@ -128,6 +127,22 @@ const Booking = () => {
         setIsFetching(false);
       });
   };
+
+  const handleBooking = (id: string) => {
+    setIsFetching(true);
+    sendBooking(id, selectedType)
+      .then(() => getSchedule(selectedMentorId)) // Gọi getSchedule sau khi sendBooking thành công
+      .then((listSchedule) => {
+        setScheduleItems(listSchedule); // Cập nhật trực tiếp state scheduleItems
+      })
+      .catch((error) => {
+        console.error("Error fetching mentor data:", error);
+      })
+      .finally(() => {
+        setIsFetching(false);
+      });
+  };
+
 
   return (
     <View style={{ paddingTop: insets.top }} className="m-[15px]">
@@ -185,7 +200,7 @@ const Booking = () => {
             </FormControlLabel>
             <Select
               onValueChange={handleChangeType}
-              selectedValue={selectedType}
+              selectedValue={selectedType == "INDIVIDUAL"? "Cá Nhân": "Nhóm" }
             >
               <SelectTrigger variant="rounded">
                 <SelectInput placeholder="Select option" />
@@ -271,7 +286,7 @@ const Booking = () => {
                                 borderRadius: 99999,
                               }}
                             >
-                              <ButtonText className="text-base font-medium-cereal text-center">
+                              <ButtonText onPress={() => handleBooking(timeFrame.id)} className="text-base font-medium-cereal text-center">
                                 Đặt lịch
                               </ButtonText>
                             </Button>
@@ -280,7 +295,12 @@ const Booking = () => {
                       </>
                     ))
                 ) : (
-                  Alert.alert("Thông báo", "Không có khung giờ nào khả dụng", [{ text: "OK" }])
+                 
+                  <View className="flex flex-row justify-between items-center w-full">
+                  <Text>Không có lịch khả dụng</Text>
+                  </View>
+                
+                 
                 )}
               </AccordionContent>
             </AccordionItem>
