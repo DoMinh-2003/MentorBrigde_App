@@ -19,18 +19,29 @@ import {
   ActionsheetIcon,
 } from "@/components/ui/actionsheet";
 import SearchStudent from "@/components/searchStudent/SearchStudent";
+import TopicDetail from "@/components/topic-detail/TopicDetail";
 const UpcomingSemester = () => {
   const insets = useSafeAreaInsets();
   const screenHeight = Dimensions.get("window").height;
   const [showActionsheet, setShowActionsheet] = useState(false);
-  const handleClose = () => setShowActionsheet(false);
-  const [search, setSearch] = useState(false);
 
+  const [search, setSearch] = useState(false);
+  const [topic, setTopic] = useState(false);
+
+  const handleClose = () => {
+    setShowActionsheet(false);
+    setTopic(false);
+    setSearch(false);
+  };
   const handleShow = (e: any) => {
     setShowActionsheet(true);
 
     if (e == "STUDENT") {
       setSearch(true);
+      setTopic(false);
+    } else {
+      setSearch(false);
+      setTopic(true);
     }
   };
   return (
@@ -165,7 +176,7 @@ const UpcomingSemester = () => {
                             backgroundColor: "#FF6001",
                             borderRadius: 99999,
                           }}
-                          onPress={() => setShowActionsheet(true)}
+                          onPress={handleShow}
                         >
                           <ButtonText className="text-sm font-medium-cereal text-center text-white">
                             Chi tiết
@@ -201,6 +212,7 @@ const UpcomingSemester = () => {
             <ActionsheetItemText>Add to Saved Items</ActionsheetItemText>
           </ActionsheetItem> */}
             {search && <SearchStudent />}
+            {topic && <TopicDetail />}
           </View>
         </ActionsheetContent>
       </Actionsheet>
