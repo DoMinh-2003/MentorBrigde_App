@@ -2,8 +2,7 @@ import { AntDesign, Feather } from "@expo/vector-icons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import NotificationsIcon from "./NotificationsIcon";
-
-
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 export const icons = {
   Home: (props) => <Feather name="home" size={26} {...props} />,
   HomeStudent: (props) => <AntDesign name="hearto" size={26} {...props} />,
@@ -28,7 +27,7 @@ export const icons = {
   Setting: (props) => (
     <AntDesign name="setting" size={26} color="black" {...props} />
   ),
-  
+  Book: (props) => (
+    <FontAwesome6 name="file" size={26} color="black" {...props} />
+  ),
 };
-
-
