@@ -1,6 +1,9 @@
 import { AntDesign, Feather } from "@expo/vector-icons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import NotificationsIcon from "./NotificationsIcon";
+
+
 export const icons = {
   Home: (props) => <Feather name="home" size={26} {...props} />,
   HomeStudent: (props) => <AntDesign name="hearto" size={26} {...props} />,
@@ -19,9 +22,13 @@ export const icons = {
     <Feather name="calendar" size={26} color="black" {...props} />
   ),
   Notifications: (props) => (
-    <Ionicons name="notifications-outline" size={26} color="black" {...props} />
+    // <Ionicons name="notifications-outline" size={26} color="black" {...props} />
+    <NotificationsIcon {...props} />
   ),
   Setting: (props) => (
     <AntDesign name="setting" size={26} color="black" {...props} />
   ),
+  
 };
+
+
