@@ -64,7 +64,6 @@ const useBookingService = () => {
         return response?.data;
       } catch (e: any) {
         console.log(e?.response?.data || "Failed to get data");
-       
       } finally {
         setIsLoading(false);
       }

@@ -13,13 +13,24 @@ import Feather from "@expo/vector-icons/Feather";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Button, ButtonText } from "@/components/ui/button";
 import { ScrollView } from "react-native";
+import { useDispatch } from "react-redux";
+import { logout } from "@/redux/features/userSlice";
+import { useNavigation } from "expo-router";
+import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
+import { RootStackParamList } from "@/models/NavigationType";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const Profile = () => {
   const insets = useSafeAreaInsets();
+  const dispatch = useDispatch()
+  const navigation =
+  useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
   return (
-    <ScrollView
+   <View  style={{ paddingTop: insets.top, marginHorizontal: 16 , marginBottom: 100 ,flex: 1 }}>
+      <ScrollView
       nestedScrollEnabled={true}
       showsVerticalScrollIndicator={false}
-      style={{ paddingTop: insets.top, margin: 16 }}
+     
     >
       <View className="flex justify-center items-center mb-4">
         <Avatar size="2xl">
@@ -133,12 +144,18 @@ const Profile = () => {
           borderRadius: 8,
           marginTop: 20,
         }}
+        onPress={() => {
+          dispatch(logout())
+          navigation.navigate('Login')
+          AsyncStorage.removeItem("token")
+        }}
       >
-        <ButtonText className="text-base font-medium-cereal">
+        <ButtonText  className="text-base font-medium-cereal">
           Đăng xuất
         </ButtonText>
       </Button>
     </ScrollView>
+   </View>
   );
 };
 

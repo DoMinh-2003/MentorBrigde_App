@@ -3,14 +3,16 @@ import { FC, useState } from "react";
 import { View } from "react-native";
 interface CalendarProps {
   selected?: string;
+  month?: any;
   setSelected?: (date: string) => void;
-  bookings?: { [key: string]: any[] }
+  setMonth?:(month: any) => void;
+  bookings?: { [key: string]: any[] };
 }
-const CustomCalendar: FC<CalendarProps> = ({ selected, setSelected, bookings }) => {
+const CustomCalendar: FC<CalendarProps> = ({ selected, month, setSelected, setMonth, bookings  }) => {
   const markedDates = Object.keys(bookings).reduce((acc, date) => {
     acc[date] = {
       marked: true,
-      dotColor: "#FF6001", // Màu của dấu chấm
+      dotColor: "#FF6001",
     };
     return acc;
   }, {});
@@ -35,6 +37,9 @@ const CustomCalendar: FC<CalendarProps> = ({ selected, setSelected, bookings }) 
         }}
         onDayPress={(day) => {
           setSelected(day.dateString);
+        }}
+        onMonthChange={(month) => { 
+          setMonth(month.month);
         }}
         markedDates={{
           ...markedDates,

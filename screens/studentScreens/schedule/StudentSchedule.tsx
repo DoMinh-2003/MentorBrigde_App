@@ -13,23 +13,27 @@ function StudentSchedule() {
   const insets = useSafeAreaInsets();
   const today = new Date();
   const formattedDate = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getDate().toString().padStart(2, '0')}`;
+  const [selectedMonth, setSelectedMonth] = useState(today.getMonth() + 1); // Đặt giá trị mặc định
   const [selected, setSelected] = useState<string>("");
   const [bookings, setBookings] = useState<{ [key: string]: any[] }>({});
   const [filteredBookings, setFilteredBookings] = useState<any[]>([]);
   const { getBookingByRole } = useBookingService();
 
+  
 
-  useFocusEffect(
-    // Load booking data theo tháng hiện tại khi component load
+useFocusEffect(
     useCallback(() => {
-      const loadData = async () => {
-        const currentMonth = new Date().getMonth() + 1; // tháng hiện tại
-        const data = await getBookingByRole(currentMonth);
+      const fetchData = async () => {
+        console.log(selectedMonth);
+        const data = await getBookingByRole(selectedMonth);
+        console.log(data);
         setBookings(data);
       };
-      loadData();
-    }, [])
+      fetchData()
+    }, [selectedMonth])
   );
+
+
 
   useEffect(() => {
     // Khi ngày được chọn thay đổi, lọc booking theo ngày
@@ -48,7 +52,7 @@ function StudentSchedule() {
         Lịch trình
       </Text>
 
-      <CustomCalendar selected={selected} setSelected={setSelected} bookings={bookings} />
+      <CustomCalendar selected={selected} setSelected={setSelected} bookings={bookings} month={selectedMonth} setMonth={setSelectedMonth}  />
       <View className="mt-4 w-full">
         <Text className="font-extra-bold-cereal text-2xl font-bold mb-4">
           Thông tin cuộc họp
@@ -132,7 +136,8 @@ function StudentSchedule() {
                         action="primary"
                         style={{ backgroundColor: "white" }}
                         onPress={() => {
-                          if (!booking.meetLink) {
+                         
+                          if (booking.meetLink) {
                             Linking.openURL(booking?.meetLink).catch((err) =>
                               console.error("Failed to open URL:", err)
                             );
