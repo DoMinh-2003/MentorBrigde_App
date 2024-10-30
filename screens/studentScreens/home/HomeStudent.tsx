@@ -18,11 +18,33 @@ import { useCurrentUser } from "@/utils/getCurrentUser";
 import useStudentService from "@/service/useStudentService";
 import { useCallback, useEffect, useState } from "react";
 import { useFocusEffect } from "expo-router";
+import useBookingService from "@/service/useBookingService";
+import {
+  Select,
+  SelectBackdrop,
+  SelectContent,
+  SelectDragIndicator,
+  SelectDragIndicatorWrapper,
+  SelectIcon,
+  SelectInput,
+  SelectItem,
+  SelectPortal,
+  SelectTrigger,
+} from "@/components/ui/select";
+import { ChevronDownIcon } from "@/components/ui/icon";
 
 const HomeStudent = () => {
   const insets = useSafeAreaInsets();
   const [dataTeam, setDataTeam] = useState({});
+  const [dataSource, setDataSource] = useState([]);
   const { getUserTeam, loading } = useStudentService();
+  const { getBooking } = useBookingService();
+  const [selectedValue, setSelectedValue] = useState("Tất Cả");
+
+  const handleValueChange = (value) => {
+    console.log(value);
+    setSelectedValue(value); // Cập nhật giá trị đã chọn vào state
+  };
 
   const user = useCurrentUser();
 
@@ -38,9 +60,19 @@ const HomeStudent = () => {
         console.log(response);
         setDataTeam(response);
       };
-
+      const fetchDataBookings = async () => {
+        const response = await getBooking(
+          selectedValue === "INDIVIDUAL" || selectedValue === "TEAM"
+            ? selectedValue
+            : undefined,
+          "REQUESTED"
+        );
+        console.log(response);
+        setDataSource(response);
+      };
+      fetchDataBookings();
       fetchDataGroups();
-    }, [])
+    }, [selectedValue])
   );
 
   return (
@@ -144,25 +176,31 @@ const HomeStudent = () => {
               {dataTeam?.userTeams && dataTeam.userTeams.length > 0 ? (
                 dataTeam.userTeams.map((item) => (
                   <Box
-                  key={item.id}
-                  className="h-12 w-full rounded-full border border-[#D5D5D7] flex items-center justify-center px-1 mb-5"
-                >
-                  <View className="flex-row justify-around items-center w-full">
-                    <Avatar size="sm">
-                      <AvatarImage
-                        source={{
-                          uri: `${item?.user?.avatar}`
-                        }}
-                      />
-                    </Avatar>
-  
-                    <Text numberOfLines={1} className="font-bold">
-                      {item?.user?.studentCode}
-                    </Text>
-                    <Text className="font-bold">{item?.role == "MENTOR" ? "GV Hướng Dẫn" : item?.role == "LEADER" ? "Nhóm Trưởng" : "Thành Viên"}</Text>
-                    <Text className="font-extrabold">...</Text>
-                  </View>
-                </Box>
+                    key={item.id}
+                    className="h-12 w-full rounded-full border border-[#D5D5D7] flex items-center justify-center px-1 mb-5"
+                  >
+                    <View className="flex-row justify-around items-center w-full">
+                      <Avatar size="sm">
+                        <AvatarImage
+                          source={{
+                            uri: `${item?.user?.avatar}`,
+                          }}
+                        />
+                      </Avatar>
+
+                      <Text numberOfLines={1} className="font-bold">
+                        {item?.user?.studentCode}
+                      </Text>
+                      <Text className="font-bold">
+                        {item?.role == "MENTOR"
+                          ? "GV Hướng Dẫn"
+                          : item?.role == "LEADER"
+                            ? "Nhóm Trưởng"
+                            : "Thành Viên"}
+                      </Text>
+                      <Text className="font-extrabold">...</Text>
+                    </View>
+                  </Box>
                 ))
               ) : (
                 <Text>Không có dữ liệu người dùng</Text> // Thông báo khi `userTeams` trống hoặc không tồn tại
@@ -184,90 +222,74 @@ const HomeStudent = () => {
                 <Text className="font-bold text-[16px] text-white">
                   Lịch sử yêu cầu cuộc họp
                 </Text>
-                <Button
-                  variant="solid"
-                  action="primary"
-                  style={{
-                    width: 106,
-                    backgroundColor: "#00000033",
-                    borderRadius: 99999,
-                  }}
-                >
-                  <ButtonText className="text-base font-medium-cereal text-center">
-                    Tất cả <AntDesign name="down" size={13} color="white" />
-                  </ButtonText>
-                </Button>
-              </View>
 
-              <VStack space="2xl" reversed={false} className="mt-4">
-                <Box className="h-12 w-full rounded-full bg-white flex items-center justify-center">
-                  <View className="flex-row justify-around items-center w-full">
-                    <Text className="font-bold">LamTV</Text>
-                    <Text>-3 điểm</Text>
-                    <Text className="font-bold">30-08-2024</Text>
-                    <Button
-                      variant="solid"
-                      action="primary"
-                      style={{
-                        width: 91,
-                        height: 30,
-                        backgroundColor: "#FF6001",
-                        borderRadius: 99999,
-                      }}
+                <Select
+                  onValueChange={handleValueChange}
+                  selectedValue={selectedValue}
+                >
+                  <SelectTrigger
+                    className="bg-white"
+                    variant="rounded"
+                    size="sm"
+                  >
+                    <SelectInput placeholder="Select option" />
+                    <SelectIcon className="mr-3" as={ChevronDownIcon} />
+                  </SelectTrigger>
+                  <SelectPortal>
+                    <SelectBackdrop />
+                    <SelectContent>
+                      <SelectDragIndicatorWrapper>
+                        <SelectDragIndicator />
+                      </SelectDragIndicatorWrapper>
+                      <SelectItem label="Cá Nhân" value="INDIVIDUAL" />
+                      <SelectItem className="pb-10" label="Nhóm" value="TEAM" />
+                    </SelectContent>
+                  </SelectPortal>
+                </Select>
+              </View>
+              <ScrollView
+                nestedScrollEnabled={true}
+                scrollEnabled={true}
+                showsVerticalScrollIndicator={true}
+                persistentScrollbar={true}
+                className="mt-4"
+              >
+                <VStack space="2xl" reversed={false} className="mt-4">
+                  {dataSource.map((item) => (
+                    <Box
+                      key={item?.id}
+                      className="h-12 w-full rounded-full bg-white flex items-center justify-center"
                     >
-                      <ButtonText className="text-xs font-medium-cereal text-center">
-                        Đang xử lí
-                      </ButtonText>
-                    </Button>
-                  </View>
-                </Box>
-                <Box className="h-12 w-full rounded-full bg-white flex items-center justify-center">
-                  <View className="flex-row justify-around items-center w-full">
-                    <Text numberOfLines={1} className="font-bold">
-                      LamTV
-                    </Text>
-                    <Text>0 điểm</Text>
-                    <Text className="font-bold">30-08-2024</Text>
-                    <Button
-                      variant="solid"
-                      action="primary"
-                      style={{
-                        width: 91,
-                        height: 30,
-                        backgroundColor: "#151316",
-                        borderRadius: 99999,
-                      }}
-                    >
-                      <ButtonText className="text-xs font-medium-cereal text-center">
-                        Bị từ chối
-                      </ButtonText>
-                    </Button>
-                  </View>
-                </Box>
-                <Box className="h-12 w-full rounded-full bg-white flex items-center justify-center">
-                  <View className="flex-row justify-around items-center w-full">
-                    <Text numberOfLines={1} className="font-bold">
-                      LamTV
-                    </Text>
-                    <Text>-3 điểm</Text>
-                    <Text className="font-bold">30-08-2024</Text>
-                    <Button
-                      variant="solid"
-                      action="primary"
-                      style={{
-                        width: 91,
-                        height: 30,
-                        backgroundColor: "#13D1B8",
-                        borderRadius: 99999,
-                      }}
-                    >
-                      <ButtonText className="text-xs font-medium-cereal text-center">
-                        Chấp nhận
-                      </ButtonText>
-                    </Button>
-                  </View>
-                </Box>
-              </VStack>
+                      <View className="flex-row justify-around items-center w-full">
+                        <Text className="font-bold">
+                          {item?.mentor?.fullName}
+                        </Text>
+                        {/* <Text>-3 điểm</Text> */}
+                        <Text className="font-bold">
+                          {(() => {
+                            const date = new Date(item?.createdAt);
+                            return `${String(date.getDate()).padStart(2, "0")}-${String(date.getMonth() + 1).padStart(2, "0")}-${date.getFullYear()}`;
+                          })()}
+                        </Text>
+                        <Button
+                          variant="solid"
+                          action="primary"
+                          style={{
+                            width: 91,
+                            height: 30,
+                            backgroundColor: "#FF6001",
+                            borderRadius: 99999,
+                          }}
+                        >
+                          <ButtonText className="text-xs font-medium-cereal text-center">
+                            Đang xử lí
+                          </ButtonText>
+                        </Button>
+                      </View>
+                    </Box>
+                  ))}
+                </VStack>
+              </ScrollView>
             </View>
           </ImageBackground>
         </Card>
