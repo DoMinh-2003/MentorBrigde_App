@@ -4,7 +4,7 @@ import { LinearGradient } from "@/components/ui/gradient/LinearGradient";
 import { Box } from "@/components/ui/box";
 import { Button, ButtonText } from "@/components/ui/button";
 import { useCallback, useState } from "react";
-import FontAwesome from '@expo/vector-icons/FontAwesome';
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 import {
   Modal,
   ModalBackdrop,
@@ -34,24 +34,21 @@ function ProcessingRequest() {
 
   const { getBooking, updateBooking } = useBookingService();
 
-  
   useFocusEffect(
-    
     useCallback(() => {
       const fetchData = async () => {
         await getBooking(undefined, "REQUESTED")
-           .then((response) => {
-             setDataSource(response);
-             console.log(response);
-           })
-           .catch((error) => {
-             console.error("Error fetching data:", error);
-           })
-       };
-     
+          .then((response) => {
+            setDataSource(response);
+            console.log(response);
+          })
+          .catch((error) => {
+            console.error("Error fetching data:", error);
+          });
+      };
+
       fetchData();
-    },[isFetching])
-   
+    }, [isFetching])
   );
 
   const handleReject = async (id: string) => {
@@ -96,13 +93,13 @@ function ProcessingRequest() {
     setShowModal(false);
   };
 
-  const getName = (value) => {
-    if(value?.student){
-       return value?.student?.studentCode || "NoName"
-    }else{
-      return value.team.code
+  const getName = (value : any) => {
+    if (value?.student) {
+      return value?.student?.studentCode || "NoName";
+    } else {
+      return value?.team?.code;
     }
-  }
+  };
 
   return (
     <ScrollView
@@ -111,8 +108,6 @@ function ProcessingRequest() {
       style={{ paddingTop: insets.top }}
       className="m-[15px]"
     >
-
-      
       <Text className="font-extra-bold-cereal text-2xl font-bold mb-5">
         Xử lí yêu cầu đặt lịch
       </Text>
@@ -122,7 +117,7 @@ function ProcessingRequest() {
           // colors={["#2AC0D8", "#2BC1D8"]}
           // start={[0, 0]}
           // end={[1, 1]}
-          style={{backgroundColor:"#2AC0D8", borderRadius:9999}}
+          style={{ backgroundColor: "#2AC0D8", borderRadius: 9999 }}
         >
           <View className="flex-row justify-between w-[60%]">
             <Text className="text-white font-medium">Số thứ tự</Text>
@@ -142,16 +137,19 @@ function ProcessingRequest() {
             key={idx}
             className="h-12 w-full rounded-full  border border-[#D5D5D7] flex-row items-center justify-between px-2 mb-5"
           >
-            
             <Text className="font-bold">{idx + 1}</Text>
-            {!request?.student ?<FontAwesome name="users" size={20} color="black" />: <FontAwesome name="user" size={24} color="black" />}
+            {!request?.student ? (
+              <FontAwesome name="users" size={20} color="black" />
+            ) : (
+              <FontAwesome name="user" size={24} color="black" />
+            )}
             <Text>{getName(request)}</Text>
             <Button
               className="rounded-full"
               variant="solid"
               action="primary"
               onPress={() => handleOpen(request)}
-              style={{backgroundColor:"#2AC0D8"}}
+              style={{ backgroundColor: "#2AC0D8" }}
             >
               <ButtonText>Chi tiết</ButtonText>
             </Button>
@@ -204,7 +202,7 @@ function ProcessingRequest() {
               variant="outline"
               action="secondary"
               onPress={() => {
-               handleReject(selected?.id)
+                handleReject(selected?.id);
               }}
               className="rounded-full"
             >
@@ -212,7 +210,7 @@ function ProcessingRequest() {
             </Button>
             <Button
               onPress={() => {
-                handleApprove(selected?.id)
+                handleApprove(selected?.id);
               }}
               className="rounded-full"
             >
