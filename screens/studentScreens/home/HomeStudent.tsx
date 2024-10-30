@@ -15,17 +15,30 @@ import Feather from "@expo/vector-icons/Feather";
 import Pie from "@/components/chart/Pie";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { useCurrentUser } from "@/utils/getCurrentUser";
+import useStudentService from "@/service/useStudentService";
+import { useEffect, useState } from "react";
 
 const HomeStudent = () => {
   const insets = useSafeAreaInsets();
+  const [dataTeam, setDataTeam] = useState();
+  const { getUserTeam, loading } = useStudentService();
 
   const user = useCurrentUser();
-  console.log("tran", user);
 
   const pieData = [
     { x: "point", y: 65 },
     { x: "bad", y: 35 },
   ];
+
+  const fetchDataGroups = async () => {
+    const response = await getUserTeam();
+    console.log(response );
+    setDataTeam(response);
+  };
+
+  useEffect(() => {
+    fetchDataGroups();
+  }, []);
 
   return (
     <ScrollView
@@ -96,7 +109,7 @@ const HomeStudent = () => {
       <Card className="mt-5 border border-[#D5D5D7] h-[340px] rounded-2xl w-full">
         <View className="flex flex-row justify-between items-center mt-0 h-1/5 l">
           <Text className="font-bold text-base">Danh sách thành viên nhóm</Text>
-          <Button
+          {/* <Button
             variant="solid"
             action="primary"
             style={{
@@ -108,7 +121,7 @@ const HomeStudent = () => {
             <ButtonText className="text-[10px] font-medium-cereal text-center">
               Thêm thành viên
             </ButtonText>
-          </Button>
+          </Button> */}
         </View>
         <View className=" h-4/5">
           <ScrollView
