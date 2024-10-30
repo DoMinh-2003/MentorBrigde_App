@@ -254,9 +254,10 @@ const HomeStudent = () => {
                 scrollEnabled={true}
                 showsVerticalScrollIndicator={true}
                 persistentScrollbar={true}
+                style={{ maxHeight: 180 }}
                 className="mt-4"
               >
-                <VStack space="2xl" reversed={false} className="mt-4">
+                <VStack space="2xl" reversed={false} className="mt-4 h-full">
                   {dataSource?.map((item) => (
                     <Box
                       key={item?.id}
