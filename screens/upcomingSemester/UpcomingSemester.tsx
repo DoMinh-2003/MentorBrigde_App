@@ -195,22 +195,11 @@ const UpcomingSemester = () => {
       <Actionsheet isOpen={showActionsheet} onClose={handleClose}>
         <ActionsheetBackdrop />
         <ActionsheetContent>
-          <View style={{ height: screenHeight * 0.8 }}>
+          <View style={{ height: screenHeight * 0.8, width: "100%" }}>
             <ActionsheetDragIndicatorWrapper>
               <ActionsheetDragIndicator />
             </ActionsheetDragIndicatorWrapper>
-            {/* <ActionsheetItem onPress={handleClose}>
-            <ActionsheetItemText>Edit Message</ActionsheetItemText>
-          </ActionsheetItem>
-          <ActionsheetItem onPress={handleClose}>
-            <ActionsheetItemText>Mark Unread</ActionsheetItemText>
-          </ActionsheetItem>
-          <ActionsheetItem onPress={handleClose}>
-            <ActionsheetItemText>Remind Me</ActionsheetItemText>
-          </ActionsheetItem>
-          <ActionsheetItem onPress={handleClose}>
-            <ActionsheetItemText>Add to Saved Items</ActionsheetItemText>
-          </ActionsheetItem> */}
+
             {search && <SearchStudent />}
             {topic && <TopicDetail />}
           </View>
