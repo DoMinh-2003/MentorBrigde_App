@@ -174,7 +174,9 @@ const HomeStudent = () => {
               className="mt-4"
             >
               {dataTeam?.userTeams && dataTeam?.userTeams?.length > 0 ? (
+
                 dataTeam?.userTeams?.map((item) => (
+
                   <Box
                     key={item.id}
                     className="h-12 w-full rounded-full border border-[#D5D5D7] flex items-center justify-center px-1 mb-5"
