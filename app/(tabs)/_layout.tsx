@@ -6,13 +6,14 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import TabBar from "../../components/tabBar/TabBar";
 import HomeMentor from "@/screens/mentorScreens/home/HomeMentor";
 import HomeStudent from "@/screens/studentScreens/home/HomeStudent";
-import Profile from "@/screens/Profile/Profile";
+import Profile from "@/screens/profile/Profile";
 import Login from "@/screens/authScreens/Login";
 import MentorSchedule from "@/screens/mentorScreens/schedule/MentorSchedule";
 import ProcessingRequest from "@/screens/mentorScreens/processingRequest/ProcessingRequest";
 import Notification from "@/screens/Notification";
 import StudentSchedule from "@/screens/studentScreens/schedule/StudentSchedule";
 import Booking from "@/screens/studentScreens/booking/Booking";
+import UpcomingSemester from "@/screens/upcomingSemester/UpcomingSemester";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -91,7 +92,8 @@ const HomeTabsStudent = () => {
     >
       <Tab.Screen
         name="Home"
-        component={HomeStudent}
+        // component={HomeStudent}
+        component={UpcomingSemester}
         options={{
           title: "Trang chủ",
         }}

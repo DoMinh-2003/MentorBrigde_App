@@ -1,17 +1,11 @@
 import { View, Text } from "react-native";
-import {
-  SafeAreaView,
-  useSafeAreaFrame,
-  useSafeAreaInsets,
-} from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Button, ButtonText } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ImageBackground } from "@/components/ui/image-background";
 import { ScrollView } from "react-native";
 import { Box } from "@/components/ui/box";
 import { VStack } from "@/components/ui/vstack";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import Feather from "@expo/vector-icons/Feather";
 import Pie from "@/components/chart/Pie";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { useCurrentUser } from "@/utils/getCurrentUser";
@@ -43,7 +37,7 @@ const HomeStudent = () => {
 
   const handleValueChange = (value: any) => {
     console.log(value);
-    setSelectedValue(value); 
+    setSelectedValue(value);
   };
 
   const user = useCurrentUser();
@@ -174,9 +168,7 @@ const HomeStudent = () => {
               className="mt-4"
             >
               {dataTeam?.userTeams && dataTeam?.userTeams?.length > 0 ? (
-
                 dataTeam?.userTeams?.map((item) => (
-
                   <Box
                     key={item.id}
                     className="h-12 w-full rounded-full border border-[#D5D5D7] flex items-center justify-center px-1 mb-5"
