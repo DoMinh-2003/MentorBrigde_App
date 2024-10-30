@@ -44,6 +44,7 @@ import { View, Text } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Box } from "@/components/ui/box";
 import { Button, ButtonText } from "@/components/ui/button";
+import useBookingService from "@/service/useBookingService";
 
 
 
@@ -63,17 +64,17 @@ export type Mentor = {
 
 const Booking = () => {
   const insets = useSafeAreaInsets();
+  const { sendBooking, loading } = useBookingService();
   const { getAdminData } = useAdminService();
   const [items, setItems] = useState([]);
   const [scheduleItems, setScheduleItems] = useState([]);
   const [isFetching, setIsFetching] = useState(false);
-
   const [selectedMentorId, setSelectedMentorId] = useState("");
-
   const [selectedType, setSelectedType] = useState("");
-
   const [selectedMentor, setSelectedMentor] = useState("");
   const [error, setError] = useState(true);
+  const { getSchedule } = useScheduleService();
+
 
   const handleChangeType = (value: any) => {
     console.log(value);
@@ -113,21 +114,21 @@ const Booking = () => {
     }, [scheduleItems])
   );
 
-  // const handleChange = (value: string) => {
-  //   setSelectedMentorId(value);
-  //   setSelectedMentor(items?.find((item) => item?.value === value)?.label);
-  //   setIsFetching(true);
-  //   getSchedule(value)
-  //     .then((listSchedule) => {
-  //       setScheduleItems(listSchedule);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching mentor data:", error);
-  //     })
-  //     .finally(() => {
-  //       setIsFetching(false);
-  //     });
-  // };
+  const handleChange = (value: string) => {
+    setSelectedMentorId(value);
+    setSelectedMentor(items?.find((item) => item?.value === value)?.label);
+    setIsFetching(true);
+    getSchedule(value)
+      .then((listSchedule) => {
+        setScheduleItems(listSchedule);
+      })
+      .catch((error) => {
+        console.error("Error fetching mentor data:", error);
+      })
+      .finally(() => {
+        setIsFetching(false);
+      });
+  };
 
   
   return (
