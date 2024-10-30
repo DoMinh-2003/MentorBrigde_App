@@ -7,7 +7,7 @@ import { Box } from "@/components/ui/box";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { VStack } from "@/components/ui/vstack";
 import { ImageBackground } from "@/components/ui/image-background";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import {
   Actionsheet,
   ActionsheetBackdrop,
@@ -20,30 +20,74 @@ import {
 } from "@/components/ui/actionsheet";
 import SearchStudent from "@/components/searchStudent/SearchStudent";
 import TopicDetail from "@/components/topic-detail/TopicDetail";
+import useStudentService from "@/service/useStudentService";
+import { useFocusEffect } from "expo-router";
+import { useSelector } from "react-redux";
+import { selectUser } from "@/redux/features/userSlice";
+import useTopicService from "@/service/useTopicService";
+import { Topic } from "@/models/topic";
 const UpcomingSemester = () => {
   const insets = useSafeAreaInsets();
   const screenHeight = Dimensions.get("window").height;
   const [showActionsheet, setShowActionsheet] = useState(false);
+  const [selected, setSelected] = useState();
 
   const [search, setSearch] = useState(false);
-  const [topic, setTopic] = useState(false);
+  const [topicOpen, setTopicOpen] = useState(false);
+  const { getUserTeam, loading } = useStudentService();
+  const [dataTeam, setDataTeam] = useState({});
+  const { getTopics } = useTopicService();
+  const [topic, setTopic] = useState<Topic[] | undefined>();
+
+  const user = useSelector(selectUser);
+  useFocusEffect(
+    useCallback(() => {
+      const fetchDataGroups = async () => {
+        try {
+          const [fetchedTopics, fetchedTeams] = await Promise.all([
+            getTopics({
+              page: 1,
+              size: 10,
+              sortBy: "name",
+              sortDirection: "asc",
+              status: "APPROVED",
+            }),
+            getUserTeam(),
+          ]);
+          setTopic(fetchedTopics);
+          setDataTeam(fetchedTeams);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchDataGroups();
+    }, [])
+  );
 
   const handleClose = () => {
     setShowActionsheet(false);
-    setTopic(false);
+    setTopicOpen(false);
     setSearch(false);
   };
-  const handleShow = (e: any) => {
+  const handleShow = (e: any, item?: any) => {
     setShowActionsheet(true);
+    
 
     if (e == "STUDENT") {
       setSearch(true);
-      setTopic(false);
+      setTopicOpen(false);
     } else {
+      setSelected(item)
       setSearch(false);
-      setTopic(true);
+      setTopicOpen(true);
     }
   };
+
+  const leader = dataTeam?.userTeams?.find(
+    (member) => member?.role === "LEADER"
+  );
+
+  const isLeader = leader?.user?.studentCode === user?.studentCode; // check user login is leader or member
   return (
     <ScrollView
       nestedScrollEnabled={true}
@@ -54,103 +98,54 @@ const UpcomingSemester = () => {
         <Text className="font-extra-bold-cereal text-2xl font-bold mb-5">
           Trang chủ
         </Text>
+        {dataTeam?.userTeams && dataTeam?.userTeams?.length == 0 ? (
+          <View className="flex justify-center items-center w-full">
+            <Image source={require("../../assets/images/member.png")} />
 
-        {/* UI CHƯA CÓ TEAM */}
-        <View className="flex justify-center items-center w-full">
-          <Image source={require("../../assets/images/member.png")} />
-
-          <Button
-            variant="solid"
-            action="primary"
-            style={{
-              width: "50%",
-              backgroundColor: "#FF7320",
-              borderRadius: 99999,
-            }}
-          >
-            <ButtonText className="text-base font-medium-cereal">
-              Tạo nhóm ngay
-            </ButtonText>
-          </Button>
-
-          <Text className="font-medium-cereal mt-3">
-            <Text className="font-medium-cereal font-medium">Note:</Text> Khi có
-            nhóm bạn mới có thể chọn đề tài
-          </Text>
-        </View>
-
-        {/* UI CÓ TEAM */}
-        <View>
-          {/* List of topic */}
-          <Card className="mt-5 border border-[#D5D5D7] h-[340px] rounded-2xl w-full">
-            <View className="flex flex-row justify-between items-center mt-0 h-1/5 l">
-              <Text className="font-bold text-base">
-                Danh sách thành viên nhóm
-              </Text>
-              <Button
-                variant="solid"
-                action="primary"
-                style={{
-                  width: 115,
-                  backgroundColor: "black",
-                  borderRadius: 99999,
-                }}
-                onPress={() => handleShow("STUDENT")}
-              >
-                <ButtonText className="text-sm font-medium-cereal text-center">
-                  Thành viên +
-                </ButtonText>
-              </Button>
-            </View>
-            <View className=" h-4/5">
-              <ScrollView
-                nestedScrollEnabled={true}
-                scrollEnabled={true}
-                showsVerticalScrollIndicator={true}
-                persistentScrollbar={true}
-                className="mt-4"
-              >
-                <Box className="h-12 w-full rounded-full border border-[#D5D5D7] flex items-center justify-around  mb-5">
-                  <View className="flex-row justify-around items-center w-full">
-                    <Avatar size="sm">
-                      <AvatarImage
-                        source={{
-                          uri: ``,
-                        }}
-                      />
-                    </Avatar>
-
-                    <Text numberOfLines={1} className="font-bold">
-                      SE172980
-                    </Text>
-                    <Text className="font-bold">
-                      {/* {item?.role == "MENTOR"
-                          ? "GV Hướng Dẫn"
-                          : item?.role == "LEADER"
-                            ? "Nhóm Trưởng"
-                            : "Thành Viên"} */}
-                      Nhóm trưởng
-                    </Text>
-                  </View>
-                </Box>
-              </ScrollView>
-            </View>
-          </Card>
-
-          {/* List of topic */}
-          <Card className="p-0 mt-5 h-[260px] rounded-2xl mb-20">
-            <ImageBackground
-              source={require("../../assets/images/student2.png")}
-              resizeMode="cover"
-              imageStyle={{ borderRadius: 16 }}
-              className="flex-1 p-4"
+            <Button
+              variant="solid"
+              action="primary"
+              style={{
+                width: "50%",
+                backgroundColor: "#FF7320",
+                borderRadius: 99999,
+              }}
             >
-              <View>
-                <View className="flex flex-row justify-between items-center">
-                  <Text className="font-bold text-xl text-white">
-                    Danh sách đề tài
-                  </Text>
-                </View>
+              <ButtonText className="text-base font-medium-cereal">
+                Tạo nhóm ngay
+              </ButtonText>
+            </Button>
+
+            <Text className="font-medium-cereal mt-3">
+              <Text className="font-medium-cereal font-medium">Note:</Text> Khi
+              có nhóm bạn mới có thể chọn đề tài
+            </Text>
+          </View>
+        ) : (
+          <View>
+            <Card className="mt-5 border border-[#D5D5D7] h-[340px] rounded-2xl w-full">
+              <View className="flex flex-row justify-between items-center mt-0 h-1/5 l">
+                <Text className="font-bold text-base">
+                  Danh sách thành viên nhóm
+                </Text>
+                {(isLeader || dataTeam?.userTeams?.length >= 6) && (
+                  <Button
+                    variant="solid"
+                    action="primary"
+                    style={{
+                      width: 115,
+                      backgroundColor: "black",
+                      borderRadius: 99999,
+                    }}
+                    onPress={() => handleShow("STUDENT")}
+                  >
+                    <ButtonText className="text-sm font-medium-cereal text-center">
+                      Thành viên +
+                    </ButtonText>
+                  </Button>
+                )}
+              </View>
+              <View className=" h-4/5">
                 <ScrollView
                   nestedScrollEnabled={true}
                   scrollEnabled={true}
@@ -158,38 +153,103 @@ const UpcomingSemester = () => {
                   persistentScrollbar={true}
                   className="mt-4"
                 >
-                  <VStack space="2xl" reversed={false} className="mt-4">
-                    <Box
-                      // key={item?.id}
-                      className="h-12 w-full rounded-full bg-white flex items-center justify-center"
-                    >
-                      <View className="flex-row justify-around items-center w-full">
-                        <Text className="font-medium w-3/5" numberOfLines={1}>
-                          Nền tảng kết nối sinh viênaaaaaaaaaaaa
-                        </Text>
-                        <Button
-                          variant="solid"
-                          action="primary"
-                          style={{
-                            width: 91,
-                            height: 30,
-                            backgroundColor: "#FF6001",
-                            borderRadius: 99999,
-                          }}
-                          onPress={handleShow}
-                        >
-                          <ButtonText className="text-sm font-medium-cereal text-center text-white">
-                            Chi tiết
-                          </ButtonText>
-                        </Button>
-                      </View>
-                    </Box>
-                  </VStack>
+                  {dataTeam?.userTeams && dataTeam?.userTeams?.length > 0 ? (
+                    dataTeam?.userTeams?.map((item) => (
+                      <Box
+                        key={item.id}
+                        className="h-12 w-full rounded-full border border-[#D5D5D7] flex items-center justify-center px-1 mb-5"
+                      >
+                        <View className="flex-row justify-around items-center w-full">
+                          <Avatar size="sm">
+                            <AvatarImage
+                              source={{
+                                uri: `${item?.user?.avatar}`,
+                              }}
+                            />
+                          </Avatar>
+
+                          <Text numberOfLines={1} className="font-bold">
+                            {item?.user?.studentCode}
+                          </Text>
+                          <Text className="font-bold">
+                            {item?.role == "MENTOR"
+                              ? "GV Hướng Dẫn"
+                              : item?.role == "LEADER"
+                                ? "Nhóm Trưởng"
+                                : "Thành Viên"}
+                          </Text>
+                          <Text className="font-extrabold">...</Text>
+                        </View>
+                      </Box>
+                    ))
+                  ) : (
+                    <Text>Không có dữ liệu người dùng</Text> // Thông báo khi `userTeams` trống hoặc không tồn tại
+                  )}
                 </ScrollView>
               </View>
-            </ImageBackground>
-          </Card>
-        </View>
+            </Card>
+
+            {/* List of topic */}
+            <Card className="p-0 mt-5 h-[260px] rounded-2xl mb-20">
+              <ImageBackground
+                source={require("../../assets/images/student2.png")}
+                resizeMode="cover"
+                imageStyle={{ borderRadius: 16 }}
+                className="flex-1 p-4"
+              >
+                <View>
+                  <View className="flex flex-row justify-between items-center">
+                    <Text className="font-bold text-xl text-white">
+                      Danh sách đề tài
+                    </Text>
+                  </View>
+                  <ScrollView
+                    nestedScrollEnabled={true}
+                    scrollEnabled={true}
+                    showsVerticalScrollIndicator={true}
+                    persistentScrollbar={true}
+                    className="mt-4"
+                  >
+                    <VStack space="2xl" reversed={false} className="mt-4">
+                      {topic?.map((item) => (
+                        <Box
+                          key={item?.id}
+                          className="h-12 w-full rounded-full bg-white flex items-center justify-center"
+                        >
+                          <View className="flex-row justify-around items-center w-full">
+                            <Text
+                              className="font-medium w-3/5"
+                              numberOfLines={1}
+                            >
+                              {item?.name}
+                            </Text>
+                            <Button
+                              variant="solid"
+                              action="primary"
+                              style={{
+                                width: 91,
+                                height: 30,
+                                backgroundColor: "#FF6001",
+                                borderRadius: 99999,
+                              }}
+                              onPress={()=>{
+                                 handleShow("topic",item)
+                                }}
+                            >
+                              <ButtonText className="text-sm font-medium-cereal text-center text-white">
+                                Chi tiết
+                              </ButtonText>
+                            </Button>
+                          </View>
+                        </Box>
+                      ))}
+                    </VStack>
+                  </ScrollView>
+                </View>
+              </ImageBackground>
+            </Card>
+          </View>
+        )}
       </View>
 
       <Actionsheet isOpen={showActionsheet} onClose={handleClose}>
@@ -201,7 +261,7 @@ const UpcomingSemester = () => {
             </ActionsheetDragIndicatorWrapper>
 
             {search && <SearchStudent />}
-            {topic && <TopicDetail />}
+            {topicOpen && <TopicDetail selected={selected} handleClose={handleClose}/>}
           </View>
         </ActionsheetContent>
       </Actionsheet>

@@ -6,6 +6,10 @@ import { Box } from "../ui/box";
 import { Button, ButtonText } from "../ui/button";
 
 const SearchStudent = () => {
+ 
+
+
+
   return (
     <View className="w-full mt-3">
       <Input className="w-full rounded-2xl">
