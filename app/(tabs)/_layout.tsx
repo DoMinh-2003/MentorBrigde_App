@@ -112,7 +112,7 @@ const HomeTabsStudent = () => {
 
       <Tab.Screen
         name="Notifications"
-        component={Profile}
+        component={Notification}
         options={{
           title: "Thông báo",
         }}
@@ -133,7 +133,7 @@ export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <Stack.Navigator initialRouteName="HomeMentor">
+    <Stack.Navigator initialRouteName="Login">
       <Stack.Screen
         name="Login"
         component={Login}

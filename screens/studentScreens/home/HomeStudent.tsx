@@ -41,7 +41,8 @@ const HomeStudent = () => {
   }, []);
 
   return (
-    <ScrollView
+  <View  style={{marginBottom: 80}}>
+      <ScrollView
       nestedScrollEnabled={true}
       showsVerticalScrollIndicator={false}
       style={{ paddingTop: insets.top }}
@@ -258,6 +259,7 @@ const HomeStudent = () => {
         </ImageBackground>
       </Card>
     </ScrollView>
+  </View>
   );
 };
 
