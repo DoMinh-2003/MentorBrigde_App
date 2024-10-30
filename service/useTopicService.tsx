@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback } from "react";
-import { TOPIC_API } from "../constants/endpoints";
+import { TEAM_API, TOPIC_API } from "../constants/endpoints";
 import api from "../config/api";
 import useApi from "@/hooks/useApi";
 
@@ -94,7 +94,27 @@ const useTopicService = () => {
   //   [callApi, setIsLoading]
   // );
 
-  return { getTopics, loading };
+  const bookTopic = useCallback(
+    async (id: string) => {
+      try {
+
+        setIsLoading(true);
+        const response = await callApi(
+          "put",
+          `${TEAM_API.TEAM}/topic?topicId=${id}`
+        );
+        console.log("Choose topic successfully!");
+        return response?.message;
+      } catch (e: any) {
+        console.log(e?.response?.data || "Failed to choose topic");
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [callApi, setIsLoading]
+  );
+
+  return { getTopics, loading , bookTopic };
 };
 
 export default useTopicService;

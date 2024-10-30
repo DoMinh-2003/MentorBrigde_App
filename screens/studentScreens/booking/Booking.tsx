@@ -47,6 +47,7 @@ import { Button, ButtonText } from "@/components/ui/button";
 import useBookingService from "@/service/useBookingService";
 import useScheduleService from "@/service/useScheduleService";
 import { formatHours } from "@/utils/dateFormat";
+import { Spinner } from "@/components/ui/spinner";
 
 export type Mentor = {
   avatar: string;
@@ -112,7 +113,7 @@ const Booking = () => {
   );
 
   const handleChange = (value: string) => {
-    if(value) setError(false)
+    if (value) setError(false);
     setSelectedMentorId(value);
     setSelectedMentor(items?.find((item) => item?.value === value)?.label);
     setIsFetching(true);
@@ -142,7 +143,6 @@ const Booking = () => {
         setIsFetching(false);
       });
   };
-
 
   return (
     <View style={{ paddingTop: insets.top }} className="m-[15px]">
@@ -200,7 +200,7 @@ const Booking = () => {
             </FormControlLabel>
             <Select
               onValueChange={handleChangeType}
-              selectedValue={selectedType == "INDIVIDUAL"? "Cá Nhân": "Nhóm" }
+              selectedValue={selectedType == "INDIVIDUAL" ? "Cá Nhân" : "Nhóm"}
             >
               <SelectTrigger variant="rounded">
                 <SelectInput placeholder="Select option" />
@@ -226,88 +226,96 @@ const Booking = () => {
           </FormControl>
         </View>
       </View>
+      {isFetching ? (
+        <View className="flex justify-center items-center w-full h-80">
+          <Spinner size="large" color={"#FF7320"} />
+        </View>
+      ) : (
+        <Accordion
+          size="md"
+          variant="unfilled"
+          type="multiple"
+          isCollapsible={true}
+          isDisabled={false}
+          className="w-full border border-outline-200 mt-5 rounded-xl"
+        >
+          {scheduleItems &&
+            Object.entries(scheduleItems).map(([date, timeFrames]) => (
+              <AccordionItem value={date}>
+                <AccordionHeader>
+                  <AccordionTrigger>
+                    {({ isExpanded }) => {
+                      return (
+                        <>
+                          <AccordionTitleText>{date}</AccordionTitleText>
+                          {isExpanded ? (
+                            <AccordionIcon
+                              as={ChevronUpIcon}
+                              className="ml-3"
+                            />
+                          ) : (
+                            <AccordionIcon
+                              as={ChevronDownIcon}
+                              className="ml-3"
+                            />
+                          )}
+                        </>
+                      );
+                    }}
+                  </AccordionTrigger>
+                </AccordionHeader>
 
-      <Accordion
-        size="md"
-        variant="unfilled"
-        type="multiple"
-        isCollapsible={true}
-        isDisabled={false}
-        className="w-full border border-outline-200 mt-5 rounded-xl"
-      >
-        {scheduleItems &&
-          Object.entries(scheduleItems).map(([date, timeFrames]) => (
-            <AccordionItem value={date}>
-              <AccordionHeader>
-                <AccordionTrigger>
-                  {({ isExpanded }) => {
-                    return (
-                      <>
-                        <AccordionTitleText>{date}</AccordionTitleText>
-                        {isExpanded ? (
-                          <AccordionIcon as={ChevronUpIcon} className="ml-3" />
-                        ) : (
-                          <AccordionIcon
-                            as={ChevronDownIcon}
-                            className="ml-3"
-                          />
-                        )}
-                      </>
-                    );
-                  }}
-                </AccordionTrigger>
-              </AccordionHeader>
+                <AccordionContent>
+                  {timeFrames?.filter(
+                    (timeFrame: TimeFrame) =>
+                      timeFrame?.timeFrameStatus === "AVAILABLE"
+                  ).length > 0 ? (
+                    timeFrames
+                      .filter(
+                        (timeFrame: TimeFrame) =>
+                          timeFrame?.timeFrameStatus === "AVAILABLE"
+                      )
+                      .map((timeFrame: TimeFrame) => (
+                        <>
+                          <Box className="h-12 w-full rounded-full border border-[#D5D5D7] flex items-center justify-center px-1 mb-5">
+                            <View className="flex flex-row justify-between items-center w-full">
+                              <Text className="ml-3">{selectedMentor}</Text>
+                              <Text className="font-bold">
+                                {formatHours(timeFrame?.timeFrameFrom)} -
+                                {formatHours(timeFrame?.timeFrameTo)}
+                              </Text>
+                              <Button
+                                variant="solid"
+                                action="primary"
+                                style={{
+                                  width: 106,
+                                  backgroundColor: "black",
+                                  borderRadius: 99999,
+                                }}
+                              >
+                                <ButtonText
+                                  onPress={() => handleBooking(timeFrame.id)}
+                                  className="text-base font-medium-cereal text-center"
+                                >
+                                  Đặt lịch
+                                </ButtonText>
+                              </Button>
+                            </View>
+                          </Box>
+                        </>
+                      ))
+                  ) : (
+                    <View className="flex flex-row justify-between items-center w-full">
+                      <Text>Không có lịch khả dụng</Text>
+                    </View>
+                  )}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
 
-              <AccordionContent>
-                {timeFrames?.filter(
-                  (timeFrame: TimeFrame) =>
-                    timeFrame?.timeFrameStatus === "AVAILABLE"
-                ).length > 0 ? (
-                  timeFrames
-                    .filter(
-                      (timeFrame: TimeFrame) =>
-                        timeFrame?.timeFrameStatus === "AVAILABLE"
-                    )
-                    .map((timeFrame: TimeFrame) => (
-                      <>
-                        <Box className="h-12 w-full rounded-full border border-[#D5D5D7] flex items-center justify-center px-1 mb-5">
-                          <View className="flex flex-row justify-between items-center w-full">
-                            <Text className="ml-3">{selectedMentor}</Text>
-                            <Text className="font-bold">
-                              {formatHours(timeFrame?.timeFrameFrom)} - 
-                              {formatHours(timeFrame?.timeFrameTo)}
-                            </Text>
-                            <Button
-                              variant="solid"
-                              action="primary"
-                              style={{
-                                width: 106,
-                                backgroundColor: "black",
-                                borderRadius: 99999,
-                              }}
-                            >
-                              <ButtonText onPress={() => handleBooking(timeFrame.id)} className="text-base font-medium-cereal text-center">
-                                Đặt lịch
-                              </ButtonText>
-                            </Button>
-                          </View>
-                        </Box>
-                      </>
-                    ))
-                ) : (
-                 
-                  <View className="flex flex-row justify-between items-center w-full">
-                  <Text>Không có lịch khả dụng</Text>
-                  </View>
-                
-                 
-                )}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-
-        {/* <Divider /> */}
-      </Accordion>
+          {/* <Divider /> */}
+        </Accordion>
+      )}
     </View>
   );
 };
