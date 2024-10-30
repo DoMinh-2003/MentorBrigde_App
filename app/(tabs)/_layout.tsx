@@ -13,7 +13,7 @@ import Notification from "@/screens/Notification";
 import StudentSchedule from "@/screens/studentScreens/schedule/StudentSchedule";
 import Booking from "@/screens/studentScreens/booking/Booking";
 import UpcomingSemester from "@/screens/upcomingSemester/UpcomingSemester";
-import Profile from "@/screens/Profile/Profile";
+import Profile from "@/screens/profile/Profile";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
