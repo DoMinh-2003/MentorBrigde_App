@@ -41,7 +41,7 @@ const HomeStudent = () => {
   const { getBooking } = useBookingService();
   const [selectedValue, setSelectedValue] = useState("Tất Cả");
 
-  const handleValueChange = (value) => {
+  const handleValueChange = (value: any) => {
     console.log(value);
     setSelectedValue(value); // Cập nhật giá trị đã chọn vào state
   };
@@ -173,8 +173,8 @@ const HomeStudent = () => {
               persistentScrollbar={true}
               className="mt-4"
             >
-              {dataTeam?.userTeams && dataTeam.userTeams.length > 0 ? (
-                dataTeam.userTeams.map((item) => (
+              {dataTeam?.userTeams && dataTeam?.userTeams?.length > 0 ? (
+                dataTeam?.userTeams?.map((item) => (
                   <Box
                     key={item.id}
                     className="h-12 w-full rounded-full border border-[#D5D5D7] flex items-center justify-center px-1 mb-5"
@@ -255,7 +255,7 @@ const HomeStudent = () => {
                 className="mt-4"
               >
                 <VStack space="2xl" reversed={false} className="mt-4">
-                  {dataSource.map((item) => (
+                  {dataSource?.map((item) => (
                     <Box
                       key={item?.id}
                       className="h-12 w-full rounded-full bg-white flex items-center justify-center"

@@ -226,7 +226,7 @@ const HomeMentor = () => {
       </ScrollView>
 
       {/* View details topic */}
-      <SwipeablePanel {...panelProps} isActive={isPanelActive}>
+      {/* <SwipeablePanel {...panelProps} isActive={isPanelActive}>
         <View className="p-4">
           <Text className="font-bold font-medium-cereal text-2xl">
             Chi tiết đề tài
@@ -234,7 +234,7 @@ const HomeMentor = () => {
           <Text>Tên đề tài:</Text>
           <Text>Mô tả:</Text>
         </View>
-      </SwipeablePanel>
+      </SwipeablePanel> */}
     </View>
   );
 };
