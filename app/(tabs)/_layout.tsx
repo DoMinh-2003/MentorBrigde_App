@@ -6,7 +6,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import TabBar from "../../components/tabBar/TabBar";
 import HomeMentor from "@/screens/mentorScreens/home/HomeMentor";
 import HomeStudent from "@/screens/studentScreens/home/HomeStudent";
-import Profile from "@/screens/Profile";
+import Profile from "@/screens/Profile/Profile";
 import Login from "@/screens/authScreens/Login";
 import MentorSchedule from "@/screens/mentorScreens/schedule/MentorSchedule";
 import ProcessingRequest from "@/screens/mentorScreens/processingRequest/ProcessingRequest";
