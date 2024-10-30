@@ -11,6 +11,7 @@ import Login from "@/screens/authScreens/Login";
 import MentorSchedule from "@/screens/mentorScreens/schedule/MentorSchedule";
 import ProcessingRequest from "@/screens/mentorScreens/processingRequest/ProcessingRequest";
 import Notification from "@/screens/Notification";
+import StudentSchedule from "@/screens/studentScreens/schedule/StudentSchedule";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -103,7 +104,7 @@ const HomeTabsStudent = () => {
       />
       <Tab.Screen
         name="Schedule"
-        component={MentorSchedule}
+        component={StudentSchedule}
         options={{
           title: "Lịch Trình",
         }}
@@ -132,7 +133,7 @@ export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <Stack.Navigator initialRouteName="Login">
+    <Stack.Navigator initialRouteName="HomeMentor">
       <Stack.Screen
         name="Login"
         component={Login}
