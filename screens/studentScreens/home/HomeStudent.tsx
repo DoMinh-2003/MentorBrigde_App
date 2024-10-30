@@ -43,7 +43,7 @@ const HomeStudent = () => {
 
   const handleValueChange = (value: any) => {
     console.log(value);
-    setSelectedValue(value); // Cập nhật giá trị đã chọn vào state
+    setSelectedValue(value); 
   };
 
   const user = useCurrentUser();

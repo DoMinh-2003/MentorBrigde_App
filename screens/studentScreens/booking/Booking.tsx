@@ -36,22 +36,48 @@ import {
   SelectPortal,
   SelectTrigger,
 } from "@/components/ui/select";
+import { SystemRole } from "@/models/role";
+import useAdminService from "@/service/useAdminService";
+import { useFocusEffect } from "expo-router";
+import { useCallback, useState } from "react";
 import { View, Text } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Box } from "@/components/ui/box";
 import { Button, ButtonText } from "@/components/ui/button";
-import { useState } from "react";
+
+
+
+export type Mentor = {
+  avatar: string;
+  dayOfBirth: string;
+  email: string;
+  fullName: string;
+  gender: string;
+  id: string;
+  phone: string;
+  role: SystemRole;
+  studentCode: string;
+  teamCode: string | null;
+  username: string;
+}
 
 const Booking = () => {
   const insets = useSafeAreaInsets();
-  const [selectedType, setSelectedType] = useState("Cá nhân");
+  const { getAdminData } = useAdminService();
+  const [items, setItems] = useState([]);
+  const [scheduleItems, setScheduleItems] = useState([]);
+  const [isFetching, setIsFetching] = useState(false);
+
+  const [selectedMentorId, setSelectedMentorId] = useState("");
+
+  const [selectedType, setSelectedType] = useState("");
 
   const [selectedMentor, setSelectedMentor] = useState("");
   const [error, setError] = useState(true);
 
   const handleChangeType = (value: any) => {
     console.log(value);
-    setSelectedType(value); // Cập nhật giá trị đã chọn vào state
+    setSelectedType(value);
   };
 
   const handleChangeMentor = (value: any) => {
@@ -59,6 +85,51 @@ const Booking = () => {
     setSelectedMentor(value);
     if (error) setError(false);
   };
+
+ 
+
+
+  useFocusEffect(
+    useCallback(() => {
+      const fetchData = async () => {
+        setIsFetching(true);
+        getAdminData(undefined, "MENTOR")
+          .then((listMentor) => {
+            setItems(
+              listMentor.content.map((mentor: Mentor) => ({
+                value: mentor.id,
+                label: mentor.fullName,
+              }))
+            );
+          })
+          .catch((error) => {
+            console.error("Error fetching mentor data:", error);
+          })
+          .finally(() => {
+            setIsFetching(false);
+          });
+      };
+      fetchData();
+    }, [scheduleItems])
+  );
+
+  // const handleChange = (value: string) => {
+  //   setSelectedMentorId(value);
+  //   setSelectedMentor(items?.find((item) => item?.value === value)?.label);
+  //   setIsFetching(true);
+  //   getSchedule(value)
+  //     .then((listSchedule) => {
+  //       setScheduleItems(listSchedule);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching mentor data:", error);
+  //     })
+  //     .finally(() => {
+  //       setIsFetching(false);
+  //     });
+  // };
+
+  
   return (
     <View style={{ paddingTop: insets.top }} className="m-[15px]">
       <Text className="font-extra-bold-cereal text-2xl font-bold mb-5">
@@ -80,17 +151,15 @@ const Booking = () => {
                 <SelectInput placeholder="Select option" />
                 <SelectIcon className="mr-3" as={ChevronDownIcon} />
               </SelectTrigger>
-              <SelectPortal className="pb-10">
+              <SelectPortal >
                 <SelectBackdrop />
-                <SelectContent>
+                <SelectContent >
                   <SelectDragIndicatorWrapper>
                     <SelectDragIndicator />
                   </SelectDragIndicatorWrapper>
-
-                  <SelectItem label="Red" value="red" />
-                  <SelectItem label="Blue" value="blue" />
-                  <SelectItem label="Black" value="black" />
-                  <SelectItem label="Green" value="green" />
+                  {items?.map((item: any, index) =>(
+                      <SelectItem key={index} label={item?.label} value={item?.value} />
+                  ))}
                 </SelectContent>
               </SelectPortal>
             </Select>
@@ -116,8 +185,9 @@ const Booking = () => {
             </FormControlLabel>
             <Select
               onValueChange={handleChangeType}
-              selectedValue={selectedType}
-            >
+              selectedValue={selectedType}       
+        >
+
               <SelectTrigger variant="rounded">
                 <SelectInput placeholder="Select option" />
                 <SelectIcon className="mr-3" as={ChevronDownIcon} />
@@ -128,8 +198,10 @@ const Booking = () => {
                   <SelectDragIndicatorWrapper>
                     <SelectDragIndicator />
                   </SelectDragIndicatorWrapper>
+
                   <SelectItem label="Cá nhân" value="INDIVIDUAL" />
                   <SelectItem label="Nhóm" value="TEAM" />
+
                 </SelectContent>
               </SelectPortal>
             </Select>
