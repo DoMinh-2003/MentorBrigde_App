@@ -42,7 +42,7 @@ const Booking = () => {
                 <SelectInput placeholder="Select option" />
                 <SelectIcon className="mr-3" as={ChevronDownIcon} />
               </SelectTrigger>
-              <SelectPortal>
+              <SelectPortal className="pb-10">
                 <SelectBackdrop />
                 <SelectContent>
                   <SelectDragIndicatorWrapper>

@@ -2,8 +2,8 @@
 export enum ADMIN_API {
   ADMIN = "admin",
   UPLOADCSV = "admin/upload-csv",
+  STATISTIC = "admin/stats",
 }
-
 //USER
 export enum USER_API {
   LOGIN_GOOGLE = "login-google",
