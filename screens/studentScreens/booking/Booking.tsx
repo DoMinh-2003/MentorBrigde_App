@@ -40,7 +40,7 @@ import { SystemRole } from "@/models/role";
 import useAdminService from "@/service/useAdminService";
 import { useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
-import { View, Text, Alert } from "react-native";
+import { View, Text, Alert, ScrollView } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Box } from "@/components/ui/box";
 import { Button, ButtonText } from "@/components/ui/button";
@@ -145,7 +145,7 @@ const Booking = () => {
   };
 
   return (
-    <View style={{ paddingTop: insets.top }} className="m-[15px]">
+    <View style={{ paddingTop: insets.top,marginBottom: 80}} className="m-[15px] mb-[80px]">
       <Text className="font-extra-bold-cereal text-2xl font-bold mb-5">
         Đặt lịch
       </Text>
@@ -231,14 +231,17 @@ const Booking = () => {
           <Spinner size="large" color={"#FF7320"} />
         </View>
       ) : (
-        <Accordion
+        <View className="mb-[80px]">
+
+          <Accordion
           size="md"
           variant="unfilled"
           type="multiple"
           isCollapsible={true}
           isDisabled={false}
-          className="w-full border border-outline-200 mt-5 rounded-xl"
+          className="w-full border border-outline-200 mt-5 rounded-xl mb-[80px]"
         >
+          <ScrollView >
           {scheduleItems &&
             Object.entries(scheduleItems).map(([date, timeFrames]) => (
               <AccordionItem value={date}>
@@ -314,7 +317,11 @@ const Booking = () => {
             ))}
 
           {/* <Divider /> */}
+          </ScrollView>
         </Accordion>
+     
+        </View>
+      
       )}
     </View>
   );

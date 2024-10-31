@@ -60,7 +60,7 @@ const Profile = () => {
           <AvatarFallbackText>NoData</AvatarFallbackText>
           <AvatarImage
             source={{
-              uri: "https://i.pinimg.com/474x/86/75/96/867596f6c6b8a3542268d3384b9ad91d.jpg",
+              uri: `${user?.avatar}`,
             }}
           />
           <AvatarBadge />
