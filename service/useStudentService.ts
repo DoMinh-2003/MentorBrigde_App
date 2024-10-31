@@ -27,21 +27,19 @@ const useStudentService = () => {
     [callApi, setIsLoading]
   );
 
-  //   const createTeam = useCallback(async () => {
-  //     try {
-  //       setIsLoading(true);
-  //       const response = await callApi("post", TEAM_API.TEAM);
-  //       const newUser = { ...user, teamCode: response.data.code };
-  //       dispatch(loginRedux(newUser));
-  //       toast.success("Tạo team thành công");
-  //       await getUserTeam();
-  //       return response?.data;
-  //     } catch (e: any) {
-  //       console.error("Create Team Error: ", e);
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   }, [callApi, user, dispatch, getUserTeam]);
+    const createTeam = useCallback(async () => {
+
+      try {
+        setIsLoading(true);
+        const response = await callApi("post", TEAM_API.TEAM);
+        await getUserTeam();
+        return response?.data;
+      } catch (e: any) {
+        console.error("Create Team Error: ", e);
+      } finally {
+        setIsLoading(false);
+      }
+    }, [callApi, getUserTeam]);
 
   const searchTeamMembers = useCallback(
     async (searchTerm: string) => {
@@ -100,7 +98,7 @@ const useStudentService = () => {
 
   return {
     loading,
-    // createTeam,
+    createTeam,
     getUserTeam,
     searchTeamMembers,
     inviteToGroup,

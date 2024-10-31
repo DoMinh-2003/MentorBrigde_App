@@ -23,9 +23,10 @@ import TopicDetail from "@/components/topic-detail/TopicDetail";
 import useStudentService from "@/service/useStudentService";
 import { useFocusEffect } from "expo-router";
 import { useSelector } from "react-redux";
-import { selectUser } from "@/redux/features/userSlice";
+import { login, selectUser } from "@/redux/features/userSlice";
 import useTopicService from "@/service/useTopicService";
 import { Topic } from "@/models/topic";
+import { useDispatch } from "react-redux";
 const UpcomingSemester = () => {
   const insets = useSafeAreaInsets();
   const screenHeight = Dimensions.get("window").height;
@@ -34,12 +35,14 @@ const UpcomingSemester = () => {
   
   const [search, setSearch] = useState(false);
   const [topicOpen, setTopicOpen] = useState(false);
-  const { getUserTeam, loading } = useStudentService();
+  const { getUserTeam,createTeam , loading } = useStudentService();
   const [dataTeam, setDataTeam] = useState({});
   const { getTopics } = useTopicService();
   const [topic, setTopic] = useState<Topic[] | undefined>();
 
   const user = useSelector(selectUser);
+  const dispatch = useDispatch()
+
   useFocusEffect(
     useCallback(() => {
       const fetchDataGroups = async () => {
@@ -55,7 +58,6 @@ const UpcomingSemester = () => {
             getUserTeam(),
           ]);
           setTopic(fetchedTopics);
-          console.log(fetchedTeams);
           setDataTeam(fetchedTeams);
         } catch (error) {
           console.log(error);
@@ -84,6 +86,18 @@ const UpcomingSemester = () => {
     }
   };
 
+  const handleTeam = async () => {
+    const response = await createTeam()
+    console.log(response?.code);
+    
+    const {teamCode} = response
+    const newUser = { ...user, teamCode };
+    dispatch(login(newUser));
+    const userTeam = await getUserTeam()
+    setDataTeam(userTeam);
+    console.log("Tạo team thành công");
+  }
+
   const leader = dataTeam?.userTeams?.find(
     (member) => member?.role === "LEADER"
   );
@@ -110,6 +124,9 @@ const UpcomingSemester = () => {
                 width: "50%",
                 backgroundColor: "#FF7320",
                 borderRadius: 99999,
+              }}
+              onPress={() => {
+                handleTeam()
               }}
             >
               <ButtonText className="text-base font-medium-cereal">
