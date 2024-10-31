@@ -14,16 +14,18 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { Button, ButtonText } from "@/components/ui/button";
 import { ScrollView } from "react-native";
 import { useDispatch } from "react-redux";
-import { logout } from "@/redux/features/userSlice";
+import { logout, selectUser } from "@/redux/features/userSlice";
 import { useNavigation } from "expo-router";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
 import { RootStackParamList } from "@/models/NavigationType";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useSelector } from "react-redux";
 const Profile = () => {
   const insets = useSafeAreaInsets();
   const dispatch = useDispatch()
   const navigation =
   useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const user = useSelector(selectUser);
 
   return (
    <View  style={{ paddingTop: insets.top, marginHorizontal: 16 , marginBottom: 100 ,flex: 1 }}>
@@ -43,7 +45,7 @@ const Profile = () => {
           <AvatarBadge />
         </Avatar>
         <Text className="font-medium-cereal text-xl font-medium mt-5  ">
-          Nguyễn Trần Ngọc Bảo Trân
+         {user?.fullName}
         </Text>
 
         <Text className="font-medium-cereal text-base mt-2">
@@ -68,7 +70,7 @@ const Profile = () => {
                   Email
                 </Text>
               </View>
-              <Text>tranntnbse172980@fpt.edu.vn</Text>
+              <Text>{user?.email}</Text>
             </View>
           </Box>
           <Box className="h-14 w-full border border-[#D5D5D7] rounded-2xl ">
@@ -79,7 +81,7 @@ const Profile = () => {
                   Phone
                 </Text>
               </View>
-              <Text>0987896789</Text>
+              <Text>{user?.phone}</Text>
             </View>
           </Box>
           <Box className="h-14 w-full border border-[#D5D5D7] rounded-2xl ">
@@ -90,7 +92,7 @@ const Profile = () => {
                   Địa chỉ
                 </Text>
               </View>
-              <Text>Nguyễn Thượng Hiền, Gò Vấp</Text>
+              <Text>{user?.address}</Text>
             </View>
           </Box>
         </VStack>
