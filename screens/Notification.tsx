@@ -3,7 +3,7 @@ import { Box } from "@/components/ui/box";
 import useNotificationService from "@/service/useNotificationService";
 import { useFocusEffect } from "expo-router";
 import React, { useCallback, useState } from "react";
-import { View, FlatList, StyleSheet, Text } from "react-native";
+import { View, FlatList, StyleSheet, Text, Pressable } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
   Avatar,
@@ -37,7 +37,7 @@ const Notification = () => {
   const insets = useSafeAreaInsets();
   const [notifications, setNotifications] = useState();
 
-  const { getNotifications } = useNotificationService();
+  const { getNotifications, updateNotifications } = useNotificationService();
 
   useFocusEffect(
     useCallback(() => {
@@ -48,9 +48,15 @@ const Notification = () => {
       loadData();
     }, [])
   );
+  const handleReadNoti = async () => {
+    await updateNotifications();
+    const data = await getNotifications();
+    setNotifications(data);
+  };
 
   const renderItem = ({ item }) => (
     <>
+    <Pressable onPress={handleReadNoti}>
       <View className="flex-row justify-between items-center w-full">
         <View className="flex-row items-center gap-3 w-4/6">
           <Avatar size="lg">
@@ -72,9 +78,10 @@ const Notification = () => {
           </View>
         </View>
 
-        <Entypo name="dot-single" size={30} color="green" />
+        {!item?.isRead && <Entypo name="dot-single" size={30} color="#FF6001" />}
       </View>
-      <Divider />
+      </Pressable>
+      <Divider className="my-3"/>
     </>
   );
 

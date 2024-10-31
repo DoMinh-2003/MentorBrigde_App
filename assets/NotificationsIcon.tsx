@@ -20,7 +20,7 @@ const NotificationsIcon = (props: any) => {
                 (notification: any) => !notification.isRead
               );
              
-              console.log(unreadNotifications.length);
+              console.log(unreadNotifications);
               setUnreadCount(unreadNotifications.length);
           };
       
