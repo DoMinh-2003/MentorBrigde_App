@@ -27,6 +27,27 @@ const Profile = () => {
   useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const user = useSelector(selectUser);
 
+  
+
+    const handleSemester = () => {
+      const semesterActive = user?.semesters?.find((s) => s.status === "ACTIVE");
+    const semesterUpcoming = user?.semesters?.find((s) => s.status === "UPCOMING");
+    
+
+
+      if (semesterActive != null) {
+        return semesterActive;
+      }
+
+      if (semesterUpcoming != null) {
+        return semesterUpcoming;
+      }
+
+      return null;
+    };
+
+    const showSemester = handleSemester()
+
   return (
    <View  style={{ paddingTop: insets.top, marginHorizontal: 16 , marginBottom: 100 ,flex: 1 }}>
       <ScrollView
@@ -51,7 +72,7 @@ const Profile = () => {
         <Text className="font-medium-cereal text-base mt-2">
           Kì hiện tại:{" "}
           <Text className="font-medium-cereal text-base font-bold">
-            FALL2024
+            {!showSemester ? "Chưa có kì" : showSemester?.name}
           </Text>
         </Text>
       </View>
