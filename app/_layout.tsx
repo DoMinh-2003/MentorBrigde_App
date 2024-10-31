@@ -15,6 +15,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { persistor, store } from "@/redux/store";
 import "../global.css";
 import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
+import { StateProvider } from "@/context/stateProvider";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -42,11 +43,13 @@ export default function RootLayout() {
           <ThemeProvider
             value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
           >
+             <StateProvider>
             <Stack>   
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
               <Stack.Screen name="oauthredirect" />
               <Stack.Screen name="+not-found" />
             </Stack>
+            </StateProvider>
           </ThemeProvider>
         </PersistGate>
       </Provider>
