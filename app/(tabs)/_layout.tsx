@@ -15,6 +15,8 @@ import Booking from "@/screens/studentScreens/booking/Booking";
 import UpcomingSemester from "@/screens/upcomingSemester/UpcomingSemester";
 import Profile from "@/screens/profile/Profile";
 import useIsUpcoming from "@/hooks/useIsUpComing";
+import { useSelector } from "react-redux";
+import { selectUser } from "@/redux/features/userSlice";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -81,7 +83,26 @@ const HomeTabsMentor = () => {
 const HomeTabsStudent = () => {
   const colorScheme = useColorScheme();
   const { isInTerm } = useIsUpcoming();
+  const user = useSelector(selectUser);
 
+  const handleSemester = () => {
+    const semesterActive = user?.semesters?.find((s) => s.status === "ACTIVE");
+  const semesterUpcoming = user?.semesters?.find((s) => s.status === "UPCOMING");
+  console.log(user?.semesters);
+
+
+    if (semesterActive != null) {
+      return false;
+    }
+
+    if (semesterUpcoming != null) {
+      return true;
+    }
+
+    return null;
+  };
+  const shouldShowHomeStudent = handleSemester();
+  console.log(shouldShowHomeStudent);
   return (
     <Tab.Navigator
       tabBar={(props) => <TabBar {...props} />}
@@ -93,7 +114,7 @@ const HomeTabsStudent = () => {
       }}
     >
       <>
-        {!(isInTerm?.length > 0) ? (
+        {!shouldShowHomeStudent ? (
           <Tab.Screen
             name="Home"
             component={HomeStudent}
@@ -119,13 +140,14 @@ const HomeTabsStudent = () => {
           title: "Lịch Trình",
         }}
       />
-      <Tab.Screen
+      {!shouldShowHomeStudent &&  <Tab.Screen
         name="Book"
         component={Booking}
         options={{
           title: "Đăt lịch",
         }}
-      />
+      />}
+     
 
       <Tab.Screen
         name="Notifications"
