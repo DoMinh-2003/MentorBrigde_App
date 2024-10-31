@@ -31,7 +31,7 @@ const UpcomingSemester = () => {
   const screenHeight = Dimensions.get("window").height;
   const [showActionsheet, setShowActionsheet] = useState(false);
   const [selected, setSelected] = useState();
-
+  
   const [search, setSearch] = useState(false);
   const [topicOpen, setTopicOpen] = useState(false);
   const { getUserTeam, loading } = useStudentService();
@@ -55,6 +55,7 @@ const UpcomingSemester = () => {
             getUserTeam(),
           ]);
           setTopic(fetchedTopics);
+          console.log(fetchedTeams);
           setDataTeam(fetchedTeams);
         } catch (error) {
           console.log(error);
@@ -98,7 +99,7 @@ const UpcomingSemester = () => {
         <Text className="font-extra-bold-cereal text-2xl font-bold mb-5">
           Trang chủ
         </Text>
-        {dataTeam?.userTeams && dataTeam?.userTeams?.length == 0 ? (
+        {dataTeam == null ? (
           <View className="flex justify-center items-center w-full">
             <Image source={require("../../assets/images/member.png")} />
 
@@ -260,7 +261,7 @@ const UpcomingSemester = () => {
               <ActionsheetDragIndicator />
             </ActionsheetDragIndicatorWrapper>
 
-            {search && <SearchStudent />}
+            {search && <SearchStudent user={user} handleClose={handleClose} />}
             {topicOpen && <TopicDetail selected={selected} handleClose={handleClose}/>}
           </View>
         </ActionsheetContent>

@@ -6,7 +6,7 @@ const Authentication = () => {
   const { callApi, loading } = useApi();
 
   const loginGoogle = async (accessToken: string) => {
-   
+   console.log(accessToken);
       const response = await callApi(
         "post",
         "login-google",

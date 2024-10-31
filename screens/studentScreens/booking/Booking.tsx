@@ -277,7 +277,7 @@ const Booking = () => {
                       )
                       .map((timeFrame: TimeFrame) => (
                         <>
-                          <Box className="h-12 w-full rounded-full border border-[#D5D5D7] flex items-center justify-center px-1 mb-5">
+                          <Box key={timeFrame?.id} className="h-12 w-full rounded-full border border-[#D5D5D7] flex items-center justify-center px-1 mb-5">
                             <View className="flex flex-row justify-between items-center w-full">
                               <Text className="ml-3">{selectedMentor}</Text>
                               <Text className="font-bold">

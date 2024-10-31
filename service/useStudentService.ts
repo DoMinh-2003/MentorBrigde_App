@@ -1,14 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback } from "react";
 import { ADMIN_API, TEAM_API } from "../constants/endpoints";
-import { useDispatch } from "react-redux";
-import { useCurrentUser } from "@/utils/getCurrentUser";
+
 import useApi from "@/hooks/useApi";
 
 const useStudentService = () => {
   const { callApi, loading, setIsLoading } = useApi();
-  const dispatch = useDispatch();
-  const user = useCurrentUser();
+  
+
 
   const getUserTeam = useCallback(
     async (teamCode?: string) => {
@@ -19,6 +18,7 @@ const useStudentService = () => {
         const response = await callApi("get", PATH);
         return response?.data;
       } catch (e: any) {
+        return null;
         console.error("Fetch User Team Error: ", e);
       } finally {
         setIsLoading(false);
@@ -62,12 +62,12 @@ const useStudentService = () => {
   );
 
   const inviteToGroup = useCallback(
-    async (email: string) => {
+    async (email: string,teamCode: string) => {
       try {
         setIsLoading(true);
         const response = await callApi(
           "post",
-          `http://103.200.20.149:8080/api/team/invite?email=${email}&teamCode=${user?.teamCode}`
+          `team/invite?email=${email}&teamCode=${teamCode}`
         );
 
         return response?.data;

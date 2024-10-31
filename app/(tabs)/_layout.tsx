@@ -14,6 +14,7 @@ import StudentSchedule from "@/screens/studentScreens/schedule/StudentSchedule";
 import Booking from "@/screens/studentScreens/booking/Booking";
 import UpcomingSemester from "@/screens/upcomingSemester/UpcomingSemester";
 import Profile from "@/screens/profile/Profile";
+import useIsUpcoming from "@/hooks/useIsUpComing";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -79,6 +80,7 @@ const HomeTabsMentor = () => {
 };
 const HomeTabsStudent = () => {
   const colorScheme = useColorScheme();
+  const { isInTerm } = useIsUpcoming();
 
   return (
     <Tab.Navigator
@@ -90,14 +92,26 @@ const HomeTabsStudent = () => {
         tabBarItemStyle: { paddingTop: 10 },
       }}
     >
-      <Tab.Screen
-        name="Home"
-        // component={HomeStudent}
-        component={UpcomingSemester}
-        options={{
-          title: "Trang chủ",
-        }}
-      />
+      <>
+        {!(isInTerm?.length > 0) ? (
+          <Tab.Screen
+            name="Home"
+            component={HomeStudent}
+            options={{
+              title: "Trang chủ",
+            }}
+          />
+        ) : (
+          <Tab.Screen
+            name="Home"
+            component={UpcomingSemester}
+            options={{
+              title: "Trang chủ",
+            }}
+          />
+        )}
+      </>
+
       <Tab.Screen
         name="Schedule"
         component={StudentSchedule}
