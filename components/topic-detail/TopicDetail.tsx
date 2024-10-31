@@ -5,12 +5,13 @@ import { VStack } from "../ui/vstack";
 import { Button, ButtonText } from "../ui/button";
 import useTopicService from "@/service/useTopicService";
 import { useEffect } from "react";
-const TopicDetail = ({ selected, handleClose }: any) => {
+const TopicDetail = ({ selected, handleClose , setFetch}: any) => {
 
   const { bookTopic } = useTopicService();
 
   const onFinish = async () => {
    await bookTopic(selected.id);
+    setFetch(selected.id)
     handleClose()
   };
 

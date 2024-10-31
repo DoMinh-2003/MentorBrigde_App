@@ -5,11 +5,12 @@ import useNotificationService from '@/service/useNotificationService';
 import { useFocusEffect } from 'expo-router';
 import { Badge, BadgeText } from '@/components/ui/badge';
 import { StyleSheet, View } from 'react-native';
+import { useStateValue } from '@/context/stateProvider';
 
 const NotificationsIcon = (props: any) => {
   const [unreadCount, setUnreadCount] = useState(0);
   const { getNotifications } = useNotificationService();
-
+  const {  realtime } = useStateValue();
 
   useFocusEffect(
     // Giả sử hàm getUnreadNotificationsCount là hàm API bạn đã định nghĩa để lấy số lượng thông báo chưa đọc
@@ -25,7 +26,7 @@ const NotificationsIcon = (props: any) => {
           };
       
           fetchNotifications();
-    },[])
+    },[realtime])
   );
 
   return (
