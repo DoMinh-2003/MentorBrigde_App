@@ -39,6 +39,7 @@ const UpcomingSemester = () => {
   const [dataTeam, setDataTeam] = useState({});
   const { getTopics } = useTopicService();
   const [topic, setTopic] = useState<Topic[] | undefined>();
+  const [fetch, setFetch] = useState();
 
   const user = useSelector(selectUser);
   const dispatch = useDispatch()
@@ -64,7 +65,7 @@ const UpcomingSemester = () => {
         }
       };
       fetchDataGroups();
-    }, [])
+    }, [fetch])
   );
 
   const handleClose = () => {
@@ -88,10 +89,8 @@ const UpcomingSemester = () => {
 
   const handleTeam = async () => {
     const response = await createTeam()
-    console.log(response?.code);
-    
-    const {teamCode} = response
-    const newUser = { ...user, teamCode };
+    const {code} = response
+    const newUser = { ...user, code };
     dispatch(login(newUser));
     const userTeam = await getUserTeam()
     setDataTeam(userTeam);
@@ -279,7 +278,7 @@ const UpcomingSemester = () => {
             </ActionsheetDragIndicatorWrapper>
 
             {search && <SearchStudent user={user} handleClose={handleClose} />}
-            {topicOpen && <TopicDetail selected={selected} handleClose={handleClose}/>}
+            {topicOpen && <TopicDetail selected={selected} handleClose={handleClose} setFetch={setFetch}/>}
           </View>
         </ActionsheetContent>
       </Actionsheet>

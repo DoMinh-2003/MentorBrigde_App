@@ -85,6 +85,7 @@ function ProcessingRequest() {
   // ];
 
   const handleOpen = (e: Request) => {
+    console.log(e);
     setShowModal(true);
     setSelected(e);
   };
@@ -184,17 +185,25 @@ function ProcessingRequest() {
               integrate notifications, forms, and media displays. Make an impact
               effortlessly.
             </Text> */}
-            <Text className="mt-2">
+            {selected?.team ?  <Text className="mt-2">
               Nhóm yêu cầu:{" "}
-              <Text className="font-medium">{" " + selected?.group}</Text>
-            </Text>
-            <Text className="mt-2">
+              <Text className="font-medium">{" " + selected?.team?.code}</Text>
+            </Text>:  <Text className="mt-2">
+              Người yêu cầu:{" "}
+              <Text className="font-medium">{" " + selected?.student?.fullName}</Text>
+            </Text>}
+           
+            {/* <Text className="mt-2">
               Đề tài:
-              <Text className="font-medium">{" " + selected?.topic}</Text>
+              <Text className="font-medium">{" " + selected?.semesters[0]?.topics[0]?.name}</Text>
+            </Text> */}
+            <Text className="mt-2">
+              Thời gian bắt đầu:
+              <Text className="font-medium">{" " + selected?.timeFrame?.timeFrameFrom}</Text>
             </Text>
             <Text className="mt-2">
-              Thời gian:
-              <Text className="font-medium">{" " + selected?.time}</Text>
+              Thời gian kết thúc:
+              <Text className="font-medium">{" " + selected?.timeFrame?.timeFrameTo}</Text>
             </Text>
           </ModalBody>
           <ModalFooter>

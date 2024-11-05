@@ -14,6 +14,7 @@ import {
 
 import Entypo from "@expo/vector-icons/Entypo";
 import { Divider } from "@/components/ui/divider";
+import { useStateValue } from "@/context/stateProvider";
 // Dữ liệu thông báo
 // const notifications = [
 //   {
@@ -36,6 +37,7 @@ import { Divider } from "@/components/ui/divider";
 const Notification = () => {
   const insets = useSafeAreaInsets();
   const [notifications, setNotifications] = useState();
+  const {  setRealtime } = useStateValue();
 
   const { getNotifications, updateNotifications } = useNotificationService();
 
@@ -43,20 +45,34 @@ const Notification = () => {
     useCallback(() => {
       const loadData = async () => {
         const data = await getNotifications();
+        data.sort((a, b) => {
+          const dateA = new Date(a.createdAt);
+          const dateB = new Date(b.createdAt);
+          
+          // Check if both dates are valid
+          if (isNaN(dateA.getTime()) || isNaN(dateB.getTime())) {
+            console.error('Invalid date:', a.createdAt, b.createdAt);
+            return 0; // If one of the dates is invalid, maintain the original order
+          }
+          
+          return dateB.getTime() - dateA.getTime(); // Sort in descending order
+        });
         setNotifications(data);
       };
       loadData();
     }, [])
   );
-  const handleReadNoti = async () => {
-    await updateNotifications();
+  const handleReadNoti = async (id : string) => {
+    console.log(id);
+    await updateNotifications(id);
     const data = await getNotifications();
     setNotifications(data);
+    setRealtime(id)
   };
 
-  const renderItem = ({ item }) => (
+  const renderItem = ({ item }: any) => (
     <>
-    <Pressable onPress={handleReadNoti}>
+    <Pressable onPress={() => {handleReadNoti(item?.id)}}>
       <View className="flex-row justify-between items-center w-full">
         <View className="flex-row items-center gap-3 w-4/6">
           <Avatar size="lg">
