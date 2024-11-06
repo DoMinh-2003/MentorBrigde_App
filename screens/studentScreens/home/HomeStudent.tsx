@@ -31,9 +31,11 @@ const HomeStudent = () => {
   const insets = useSafeAreaInsets();
   const [dataTeam, setDataTeam] = useState({});
   const [dataSource, setDataSource] = useState([]);
-  const { getUserTeam, loading } = useStudentService();
+  const { getUserTeam, loading, getPoints } = useStudentService();
   const { getBooking } = useBookingService();
   const [selectedValue, setSelectedValue] = useState("Tất Cả");
+
+  const [points, setPoints] = useState(0);
 
   const handleValueChange = (value: any) => {
     console.log(value);
@@ -42,9 +44,19 @@ const HomeStudent = () => {
 
   const user = useCurrentUser();
 
+  const fetchPoints = async () => {
+    try {
+      const response = await getPoints();
+      console.log(response);
+      setPoints(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const pieData = [
-    { x: "point", y: 65 },
-    { x: "bad", y: 35 },
+    { x: "point", y: points },
+    { x: "left", y: 50 - points },
   ];
 
   useFocusEffect(
@@ -66,6 +78,7 @@ const HomeStudent = () => {
       };
       fetchDataBookings();
       fetchDataGroups();
+      fetchPoints();
     }, [selectedValue])
   );
 

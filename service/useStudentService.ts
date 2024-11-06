@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback } from "react";
-import { ADMIN_API, TEAM_API } from "../constants/endpoints";
+import { ADMIN_API, TEAM_API, USER_API } from "../constants/endpoints";
 
 import useApi from "@/hooks/useApi";
 
 const useStudentService = () => {
   const { callApi, loading, setIsLoading } = useApi();
-  
-
 
   const getUserTeam = useCallback(
     async (teamCode?: string) => {
@@ -27,19 +25,30 @@ const useStudentService = () => {
     [callApi, setIsLoading]
   );
 
-    const createTeam = useCallback(async () => {
+  const getPoints = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      // check PATH
+      const response = await callApi("get", USER_API.POINTS);
+      return response?.data;
+    } catch (e: any) {
+    } finally {
+      setIsLoading(false);
+    }
+  }, [callApi, setIsLoading]);
 
-      try {
-        setIsLoading(true);
-        const response = await callApi("post", TEAM_API.TEAM);
-        await getUserTeam();
-        return response?.data;
-      } catch (e: any) {
-        console.error("Create Team Error: ", e);
-      } finally {
-        setIsLoading(false);
-      }
-    }, [callApi, getUserTeam]);
+  const createTeam = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const response = await callApi("post", TEAM_API.TEAM);
+      await getUserTeam();
+      return response?.data;
+    } catch (e: any) {
+      console.error("Create Team Error: ", e);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [callApi, getUserTeam]);
 
   const searchTeamMembers = useCallback(
     async (searchTerm: string) => {
@@ -60,7 +69,7 @@ const useStudentService = () => {
   );
 
   const inviteToGroup = useCallback(
-    async (email: string,teamCode: string) => {
+    async (email: string, teamCode: string) => {
       try {
         setIsLoading(true);
         const response = await callApi(
@@ -103,6 +112,7 @@ const useStudentService = () => {
     searchTeamMembers,
     inviteToGroup,
     acceptInvitation,
+    getPoints,
   };
 };
 
