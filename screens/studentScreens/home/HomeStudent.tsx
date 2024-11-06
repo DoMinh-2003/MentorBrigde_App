@@ -107,12 +107,13 @@ const HomeStudent = () => {
                   variant="solid"
                   action="primary"
                   style={{
-                    width: 105,
+                    width: 120,
+                    height: 40,
                     backgroundColor: "black",
                     borderRadius: 99999,
                   }}
                 >
-                  <ButtonText className="text-[10px] font-medium-cereal">
+                  <ButtonText className="text-[13px] font-medium-cereal">
                     Xem lịch ngay
                   </ButtonText>
                 </Button>
@@ -131,8 +132,8 @@ const HomeStudent = () => {
             className="flex-1 px-4"
           >
             <View className="flex flex-row justify-between items-center mt-0 h-1/5">
-              <Text className="font-bold text-sm text-white">
-                Số điểm còn lại trong kì (65/100)
+              <Text className="font-bold text-[16px] text-white">
+                Số điểm còn lại trong kì
               </Text>
             </View>
             <Pie data={pieData} colorScale={["#FFFFFF", "#DEDEE0"]} />
@@ -142,7 +143,7 @@ const HomeStudent = () => {
         {/* List of topic */}
         <Card className="mt-5 border border-[#D5D5D7] h-[340px] rounded-2xl w-full">
           <View className="flex flex-row justify-between items-center mt-0 h-1/5 l">
-            <Text className="font-bold text-base">
+            <Text className="font-bold text-[16px]">
               Danh sách thành viên nhóm
             </Text>
             {/* <Button
@@ -214,7 +215,7 @@ const HomeStudent = () => {
             <View>
               <View className="flex flex-row justify-between items-center">
                 <Text className="font-bold text-[16px] text-white">
-                  Lịch sử yêu cầu cuộc họp
+                  Lịch sử yêu cầu
                 </Text>
 
                 <Select

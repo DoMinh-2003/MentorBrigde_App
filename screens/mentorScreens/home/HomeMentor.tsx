@@ -75,12 +75,12 @@ const HomeMentor = () => {
           console.log(error);
         }
       };
-  
+
       fetchData();
-    }, []) 
+    }, [])
   );
   return (
-    <View style={{marginBottom: 80}}>
+    <View style={{ marginBottom: 80 }}>
       <ScrollView
         nestedScrollEnabled={true}
         showsVerticalScrollIndicator={false}
@@ -117,12 +117,13 @@ const HomeMentor = () => {
                   variant="solid"
                   action="primary"
                   style={{
-                    width: 105,
+                    width: 120,
+                    height: 40,
                     backgroundColor: "black",
                     borderRadius: 99999,
                   }}
                 >
-                  <ButtonText className="text-[10px] font-medium-cereal">
+                  <ButtonText className="text-[13px] font-medium-cereal">
                     Xem lịch ngay
                   </ButtonText>
                 </Button>
@@ -156,7 +157,7 @@ const HomeMentor = () => {
         <Card className="mt-5 border border-[#D5D5D7] h-[340px] rounded-2xl">
           <View className="flex flex-row justify-between items-center mt-0 h-1/5">
             <Text className="font-bold text-[16px]">Danh sách đề tài</Text>
-            <Button
+            {/* <Button
               variant="solid"
               action="primary"
               style={{
@@ -168,7 +169,7 @@ const HomeMentor = () => {
               <ButtonText className="text-[10px] font-medium-cereal text-center">
                 Thêm đề tài mới +
               </ButtonText>
-            </Button>
+            </Button> */}
           </View>
           <View className=" h-4/5">
             <ScrollView
@@ -218,23 +219,12 @@ const HomeMentor = () => {
                 persistentScrollbar={true}
                 className="mt-4 h-4/5"
               >
-                <TeamList groups={teams}/>
+                <TeamList groups={teams} />
               </ScrollView>
             </View>
           </ImageBackground>
         </Card>
       </ScrollView>
-
-      {/* View details topic */}
-      {/* <SwipeablePanel {...panelProps} isActive={isPanelActive}>
-        <View className="p-4">
-          <Text className="font-bold font-medium-cereal text-2xl">
-            Chi tiết đề tài
-          </Text>
-          <Text>Tên đề tài:</Text>
-          <Text>Mô tả:</Text>
-        </View>
-      </SwipeablePanel> */}
     </View>
   );
 };
