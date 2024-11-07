@@ -133,7 +133,7 @@ function ProcessingRequest() {
         persistentScrollbar={true}
         className="mt-4 "
       >
-        {dataSource.map((request, idx) => (
+        {dataSource?.map((request, idx) => (
           <Box
             key={idx}
             className="h-12 w-full rounded-full  border border-[#D5D5D7] flex-row items-center justify-between px-2 mb-5"
