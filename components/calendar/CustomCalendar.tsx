@@ -5,11 +5,11 @@ interface CalendarProps {
   selected?: string;
   month?: any;
   setSelected?: (date: string) => void;
-  setMonth?:(month: any) => void;
-  bookings?: { [key: string]: any[] };
+  setMonth?: (month: any) => void;
+  bookings?: { [key: string]: any[] } | {};  
 }
 const CustomCalendar: FC<CalendarProps> = ({ selected, month, setSelected, setMonth, bookings  }) => {
-  const markedDates = Object.keys(bookings).reduce((acc, date) => {
+  const markedDates = Object.keys(bookings || {}).reduce((acc, date) => {
     acc[date] = {
       marked: true,
       dotColor: "#FF6001",
