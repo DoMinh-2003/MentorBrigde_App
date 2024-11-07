@@ -26,14 +26,16 @@ import {
   SelectTrigger,
 } from "@/components/ui/select";
 import { ChevronDownIcon } from "@/components/ui/icon";
+import CountdownTimer from "@/components/countdown-timer";
 
 const HomeStudent = () => {
   const insets = useSafeAreaInsets();
   const [dataTeam, setDataTeam] = useState({});
   const [dataSource, setDataSource] = useState([]);
   const { getUserTeam, loading, getPoints } = useStudentService();
-  const { getBooking } = useBookingService();
+  const { getBooking, getBookingNearest } = useBookingService();
   const [selectedValue, setSelectedValue] = useState("Tất Cả");
+  const [bookingNearset, setBookingNearset] = useState([]);
 
   const [points, setPoints] = useState(0);
 
@@ -55,8 +57,8 @@ const HomeStudent = () => {
   };
 
   const pieData = [
-    { x: "point", y: points },
-    { x: "left", y: 50 - points },
+    { x: "Tổng điểm còn lại", y: points?.studentPoints},
+    { x: "Tổng điểm đã sử dụng", y: 50 - points?.studentPoints },
   ];
 
   useFocusEffect(
@@ -76,6 +78,15 @@ const HomeStudent = () => {
         console.log(response);
         setDataSource(response);
       };
+      const fetch = async () => {
+        try {
+          const response = await getBookingNearest();
+          setBookingNearset(response);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetch();
       fetchDataBookings();
       fetchDataGroups();
       fetchPoints();
@@ -107,20 +118,31 @@ const HomeStudent = () => {
             className="flex-1 p-4"
           >
             <View className="h-full flex flex-col justify-between">
-              <View>
-                <Text className="text-base font-medium-cereal font-bold text-white">
-                  Buổi hẹn tiếp theo sẽ bắt đầu vào
-                </Text>
-                <Text className="text-2xl font-extra-bold-cereal text-white font-bold">
-                  3 ngày nữa
-                </Text>
-              </View>
+            {bookingNearset && bookingNearset?.length > 0 ? (
+                <View>
+                  <Text className="text-base font-medium-cereal font-bold text-white">
+                    Buổi hẹn tiếp theo sẽ bắt đầu vào
+                  </Text>
+                  <Text className="text-2xl font-extra-bold-cereal text-white font-bold">
+                    <CountdownTimer
+                      dateTo={bookingNearset[0]?.timeFrame?.timeFrameTo}
+                      targetDate={bookingNearset[0]?.timeFrame?.timeFrameFrom}
+                    />
+                  </Text>
+                </View>
+              ) : (
+                <View>
+                  <Text className="text-base font-medium-cereal font-bold text-white">
+                    Chưa có cuộc hẹn nào sắp tới
+                  </Text>
+                </View>
+              )}
               <View className="flex justify-end items-end">
                 <Button
                   variant="solid"
                   action="primary"
                   style={{
-                    width: 120,
+                    width: 140,
                     height: 40,
                     backgroundColor: "black",
                     borderRadius: 99999,

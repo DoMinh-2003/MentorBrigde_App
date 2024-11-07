@@ -23,11 +23,16 @@ import GroupSection from "@/components/group-section/TeamList";
 import TeamList from "@/components/group-section/TeamList";
 import useMentorService from "@/service/useMentorService";
 import { useFocusEffect } from "expo-router";
+import CountdownTimer from "@/components/countdown-timer";
+import useBookingService from "@/service/useBookingService";
 
 const HomeMentor = () => {
   const insets = useSafeAreaInsets();
   const user = useCurrentUser();
   const [topic, setTopic] = useState<Topic[] | undefined>();
+  const [bookingNearset, setBookingNearset] = useState([]);
+  const { getBookingNearest } = useBookingService();
+
   const { getTopics } = useTopicService();
 
   const { getTeams } = useMentorService();
@@ -75,7 +80,15 @@ const HomeMentor = () => {
           console.log(error);
         }
       };
-
+      const fetch = async () => {
+        try {
+          const response = await getBookingNearest();
+          setBookingNearset(response);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetch();
       fetchData();
     }, [])
   );
@@ -104,20 +117,32 @@ const HomeMentor = () => {
             className="flex-1 p-4"
           >
             <View className="h-full  flex flex-col justify-between">
-              <View>
-                <Text className="text-base font-medium-cereal font-bold text-white">
-                  Buổi hẹn tiếp theo sẽ bắt đầu vào
-                </Text>
-                <Text className="text-2xl font-extra-bold-cereal text-white font-bold">
-                  3 ngày nữa
-                </Text>
-              </View>
+              {bookingNearset && bookingNearset?.length > 0 ? (
+                <View>
+                  <Text className="text-base font-medium-cereal font-bold text-white">
+                    Buổi hẹn tiếp theo sẽ bắt đầu vào
+                  </Text>
+                  <Text className="text-2xl font-extra-bold-cereal text-white font-bold">
+                    <CountdownTimer
+                      dateTo={bookingNearset[0]?.timeFrame?.timeFrameTo}
+                      targetDate={bookingNearset[0]?.timeFrame?.timeFrameFrom}
+                    />
+                  </Text>
+                </View>
+              ) : (
+                <View>
+                  <Text className="text-base font-medium-cereal font-bold text-white">
+                    Chưa có cuộc hẹn nào sắp tới
+                  </Text>
+                </View>
+              )}
+
               <View className="flex justify-end items-end">
                 <Button
                   variant="solid"
                   action="primary"
                   style={{
-                    width: 120,
+                    width: 140,
                     height: 40,
                     backgroundColor: "black",
                     borderRadius: 99999,
