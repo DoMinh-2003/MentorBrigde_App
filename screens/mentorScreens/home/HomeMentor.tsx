@@ -13,17 +13,16 @@ import { VStack } from "@/components/ui/vstack";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Feather from "@expo/vector-icons/Feather";
 import Pie from "@/components/chart/Pie";
-import { useCallback, useEffect, useState } from "react";
-import axios from "axios";
 import { useCurrentUser } from "@/utils/getCurrentUser";
 import useTopicService from "@/service/useTopicService";
 import { Topic } from "@/models/topic";
-import { SwipeablePanel } from "rn-swipeable-panel";
+
 import GroupSection from "@/components/group-section/TeamList";
 import TeamList from "@/components/group-section/TeamList";
 import useMentorService from "@/service/useMentorService";
 import { useFocusEffect } from "expo-router";
-import CountdownTimer from "@/components/countdown-timer";
+
+// import CountdownTimer from "@/components/countdown-timer";
 import useBookingService from "@/service/useBookingService";
 
 const HomeMentor = () => {
@@ -123,10 +122,10 @@ const HomeMentor = () => {
                     Buổi hẹn tiếp theo sẽ bắt đầu vào
                   </Text>
                   <Text className="text-2xl font-extra-bold-cereal text-white font-bold">
-                    <CountdownTimer
+                    {/* <CountdownTimer
                       dateTo={bookingNearset[0]?.timeFrame?.timeFrameTo}
                       targetDate={bookingNearset[0]?.timeFrame?.timeFrameFrom}
-                    />
+                    /> */}
                   </Text>
                 </View>
               ) : (

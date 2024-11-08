@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, Dimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Button, ButtonText } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -26,8 +26,20 @@ import {
   SelectTrigger,
 } from "@/components/ui/select";
 import { ChevronDownIcon } from "@/components/ui/icon";
+import { Feather } from "@expo/vector-icons";
+import {
+  Actionsheet,
+  ActionsheetBackdrop,
+  ActionsheetContent,
+  ActionsheetDragIndicator,
+  ActionsheetDragIndicatorWrapper,
+  ActionsheetItem,
+  ActionsheetItemText,
+  ActionsheetIcon,
+} from "@/components/ui/actionsheet";
 import CountdownTimer from "@/components/countdown-timer";
-
+import TransactionPoint from "@/components/transactionPoint";
+import usePointsService from "@/service/usePointsService";
 const HomeStudent = () => {
   const insets = useSafeAreaInsets();
   const [dataTeam, setDataTeam] = useState({});
@@ -36,9 +48,12 @@ const HomeStudent = () => {
   const { getBooking, getBookingNearest } = useBookingService();
   const [selectedValue, setSelectedValue] = useState("Tất Cả");
   const [bookingNearset, setBookingNearset] = useState([]);
-
+  const [showActionsheet, setShowActionsheet] = useState(false);
+  const handleClose = () => setShowActionsheet(false);
   const [points, setPoints] = useState(0);
-
+  const screenHeight = Dimensions.get("window").height;
+  const { getPointsHistory } = usePointsService();
+  const [pointsHistory, setPointsHistory] = useState([]);
   const handleValueChange = (value: any) => {
     console.log(value);
     setSelectedValue(value);
@@ -57,10 +72,19 @@ const HomeStudent = () => {
   };
 
   const pieData = [
-    { x: "Tổng điểm còn lại", y: points?.studentPoints},
+    { x: "Tổng điểm còn lại", y: points?.studentPoints },
     { x: "Tổng điểm đã sử dụng", y: 50 - points?.studentPoints },
   ];
 
+  const fetchPointsHistory = async () => {
+    try {
+      const response = await getPointsHistory();
+      setPointsHistory(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log(pointsHistory,"tran")
   useFocusEffect(
     useCallback(() => {
       const fetchDataGroups = async () => {
@@ -90,6 +114,7 @@ const HomeStudent = () => {
       fetchDataBookings();
       fetchDataGroups();
       fetchPoints();
+      fetchPointsHistory()
     }, [selectedValue])
   );
 
@@ -118,7 +143,7 @@ const HomeStudent = () => {
             className="flex-1 p-4"
           >
             <View className="h-full flex flex-col justify-between">
-            {bookingNearset && bookingNearset?.length > 0 ? (
+              {bookingNearset && bookingNearset?.length > 0 ? (
                 <View>
                   <Text className="text-base font-medium-cereal font-bold text-white">
                     Buổi hẹn tiếp theo sẽ bắt đầu vào
@@ -170,6 +195,28 @@ const HomeStudent = () => {
               <Text className="font-bold text-[16px] text-white">
                 Số điểm còn lại trong kì
               </Text>
+              {/* <View
+                className="bg-[#FFFFFF30] rounded-xl w-10 h-10 text-center flex items-center justify-center"
+                onPress={() => setShowActionsheet(true)}
+              >
+                <Feather name="eye" size={24} color="white" />
+              </View> */}
+
+              <Button
+                variant="solid"
+                action="primary"
+                style={{
+                  width: 60,
+                  height: 50,
+                  backgroundColor: "#FFFFFF30",
+                  borderRadius: 99999,
+                }}
+                onPress={() => setShowActionsheet(true)}
+              >
+                <ButtonText className=" font-medium-cereal text-center">
+                  <Feather name="eye" size={24} color="white" />
+                </ButtonText>
+              </Button>
             </View>
             <Pie data={pieData} colorScale={["#FFFFFF", "#DEDEE0"]} />
           </ImageBackground>
@@ -325,6 +372,18 @@ const HomeStudent = () => {
           </ImageBackground>
         </Card>
       </ScrollView>
+
+      <Actionsheet isOpen={showActionsheet} onClose={handleClose}>
+        <ActionsheetBackdrop />
+        <ActionsheetContent>
+          <View style={{ height: screenHeight * 0.8, width: "100%" }}>
+            <ActionsheetDragIndicatorWrapper>
+              <ActionsheetDragIndicator />
+            </ActionsheetDragIndicatorWrapper>
+            <TransactionPoint transaction={pointsHistory}/>
+          </View>
+        </ActionsheetContent>
+      </Actionsheet>
     </View>
   );
 };
